@@ -14,18 +14,20 @@ module.exports={
             info = {
                 teamName: null,
                 teamDesc: null,
-                teamIcon: null
+                teamIcon: null,
+                teamBanner: null,
+                teamReqLvl: null
             }
             team = {
                 teamCode: null,
                 teamOwner: null,
                 teamMembers: [],
-                teamChallenges: [{ name: `Raise your team to the level 2`, reward: 120, type: `raise`, allMembers: false, completed: false }]
+                teamChallenges: []
             }
             leveling = {
                 xp: 0,
                 rxp: 150,
-                lvl: 0
+                lvl: 1
             }
             constructor(teamN, teamI){
                 this.info.teamName = teamN
@@ -41,6 +43,26 @@ module.exports={
                     }
 
                     return id.length > 0 ? id : null
+                }
+                
+                this.team.teamChallenges = newChallenges()
+                function newChallenges(){
+                    let challenges = []
+                    let lastLvl = 2
+                    for(let i = 0; i < 10; i++){
+                        let diff = Math.floor(Math.random() * 4)
+                        challenges.push(
+                            {
+                                "name": `Raise your team to the level ${diff + lastLvl}`,
+                                "reward": Math.floor(Math.random() * 60) + 120,
+                                "config": {"type": "raise", "apply": "team"},
+                                "allMembers": false,
+                                "completed": false
+                            }
+                        )
+                        lastLvl += diff
+                    }
+                    return challenges
                 }
             }
         }
@@ -85,9 +107,11 @@ module.exports={
         let teamName = args[0]
         let teamIcon = args[1]
 
+        let regExURL = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
+
         if(!teamName || !teamIcon) return message.channel.send(`> **Arguments**`, {
             embed:{
-                description: `${bot.db.messages.args}\n> \`${bot.config.prefix}newteam <team name> <team icon>[url]\`\n\n> **Note:** The \`team icon\` should be an emoji, any emoji is acceptable for your team icon\n> For while, your team name must be separated with "-" if the name have spaces`,
+                description: `${bot.db.messages.args}\n> \`${bot.config.prefix}newteam <team name> <team icon>\`\n\n> **Note:** The \`team icon\` should be an emoji, any emoji is acceptable for your team icon`,
                 color: bot.config.embed_color,
                 timestamp: Date.now(),
                 footer: { text: `${bot.user.username}`}
@@ -102,8 +126,6 @@ module.exports={
                 footer: { text: `${bot.user.username}`}
             }
         })
-
-        let regExURL = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
 
         if(!regExURL.test(teamIcon)) return message.channel.send(`> **Oops!**`, {
             embed:{
@@ -134,7 +156,6 @@ module.exports={
 
         message.channel.send(`> **Done!**`, {
             embed:{
-                thumbnail: { url: team.info.teamIcon },
                 description: `You have created a new team!\nYour team will be known as **${team.info.teamName}**, awesome!\n\n**Now..**\nYou can get some members on your team and make your team the **Best Team** ever. Good luck\n> Invite members with the code: **${team.team.teamCode}**`,
                 color: bot.config.embed_color,
                 timestamp: Date.now(),

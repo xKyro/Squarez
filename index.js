@@ -1,20 +1,20 @@
 const Duration = require("humanize-duration")
 require("dotenv").config()
 
-const keepAlive = require('./server');
-const Monitor = require('ping-monitor');
+// const keepAlive = require('./server');
+// const Monitor = require('ping-monitor');
  
-keepAlive();
-const monitor = new Monitor({
-    website: 'https://Host.itzfox.repl.co',
-    title: 'Secundario',
-    interval: 5 // minutes
-});
+// keepAlive();
+// const monitor = new Monitor({
+//     website: 'https://Host.itzfox.repl.co',
+//     title: 'Secundario',
+//     interval: 5 // minutes
+// });
 
-monitor.on('up', (res) => console.log(`${res.website} está encedido.`));
-monitor.on('down', (res) => console.log(`${res.website} se ha caído - ${res.statusMessage}`));
-monitor.on('stop', (website) => console.log(`${website} se ha parado.`) );
-monitor.on('error', (error) => console.log(error));
+// monitor.on('up', (res) => console.log(`${res.website} está encedido.`));
+// monitor.on('down', (res) => console.log(`${res.website} se ha caído - ${res.statusMessage}`));
+// monitor.on('stop', (website) => console.log(`${website} se ha parado.`) );
+// monitor.on('error', (error) => console.log(error));
 
 //Discord
 const Discord = require("discord.js")
@@ -69,9 +69,36 @@ bot.on("ready", () =>{
 })
 bot.on("message", async(message) =>{
 
-  // if(message.guild.id !== "836264176149725226") return
+  if(message.guild.id !== "836264176149725226") return
 
   let prefix = bot.config.prefix
+  const team = bot.db.teams.find(team => team.team.teamMembers.find(member => member.userID === message.author.id))
+  if(team){
+
+    // {
+    //   "name": "Raise your team to the level 2",
+    //   "reward": 120,
+    //   "config": {"type": "raise", "apply": "team"},
+    //   "allMembers": false,
+    //   "completed": false
+    // }
+
+    if(team.leveling.xp >= team.leveling.rxp){
+      team.leveling.xp = 0
+      team.leveling.rxp += 150
+      team.leveling.lvl++
+    }
+    
+    //Beta: Only team level
+    team.team.teamChallenges.forEach(challenge =>{
+      if(challenge.name.includes("Raise") || challenge.name.includes("raise") && challenge.config.apply === "team"){
+        let lvl = parseInt(challenge.name.split(" ").filter(char => !isNaN(char))[0])
+        if(team.leveling.lvl >= lvl) challenge.completed = true
+      }
+    })
+
+    fs.writeFile("./base/db.json", JSON.stringify(bot.db), (err) => { if(err) console.log(err) })
+  }
 
   if(!message.guild) return
   if(!message.member) return

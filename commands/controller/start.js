@@ -172,6 +172,10 @@ module.exports={
             const data = await bot.db.data.find(user => user.userID === playersGRID[i].gridPlayerId)
             let newBadges = []
             if(data){
+              //Getting team
+              const team = bot.db.teams.find(team => team.team.teamMembers.find(member => member.userID === playersGRID[i].gridPlayerId))
+              if(team) team.leveling.xp += Math.floor(Math.random() * 10)
+              
               //Update profile data
               data.profile.gamesWon++
 
@@ -349,6 +353,10 @@ module.exports={
             const data = await bot.db.data.find(user => user.userID === pl.gridPlayerId)
             let newBadges = []
             if(data){
+              //Getting team
+              const team = bot.db.teams.find(team => team.team.teamMembers.find(member => member.userID === pl.gridPlayerId))
+              if(team) team.leveling.xp += Math.floor(Math.random() * 10)
+
               //Updating profile data
               data.profile.gamesWon++
 

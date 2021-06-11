@@ -36,7 +36,6 @@ module.exports={
 
         const msg = await message.channel.send(`> **Are you sure?**`, {
             embed:{
-                thumbnail: { url: team.info.teamIcon },
                 description: `Are your sure that you want to **disband** your actual team?\nEvery single member of your team will be kicked and can no longer join back to the team\nYour team code will no longer be avaible for **anyone**\n\nThink about it`,
                 color: bot.config.embed_color,
                 timestamp: Date.now(),
@@ -61,7 +60,6 @@ module.exports={
 
                 msg.edit(`> **Done!**`, {
                     embed:{
-                        thumbnail: { url: team.info.teamIcon },
                         description: `You have **disbanded** the team **${team.info.teamName}**\nEvery member was kicked and can no longer join to the team`,
                         color: bot.config.embed_color,
                         timestamp: Date.now(),
@@ -73,7 +71,6 @@ module.exports={
             if(button.id === "regret-team-button"){
                 msg.edit(`> **Done!**`, {
                     embed:{
-                        thumbnail: { url: team.info.teamIcon },
                         description: `You will no longer disband the team **${team.info.teamName}**\nI'm glad that you thought about the consequences of this action`,
                         color: bot.config.embed_color,
                         timestamp: Date.now(),

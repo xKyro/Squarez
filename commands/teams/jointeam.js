@@ -66,7 +66,6 @@ module.exports={
 
         const msg = await message.channel.send(`> **Join to ${team.info.teamName}?**`, {
             embed:{
-                thumbnail: { url: team.info.teamIcon },
                 description: `Do you want to join to the team **${team.info.teamName}?**\nThe team has **${team.team.teamMembers.length}** members on it, the team will have **${team.team.teamMembers.length+1}** members`,
                 color: bot.config.embed_color,
                 timestamp: Date.now(),
@@ -83,7 +82,6 @@ module.exports={
             if(button.id === "join-team-button"){
                 msg.edit(`> **Done!**`, {
                     embed:{
-                        thumbnail: { url: team.info.teamIcon },
                         description: `You are now on the team **${team.info.teamName}**!\nLet's have some fun with your new teammates`,
                         color: bot.config.embed_color,
                         timestamp: Date.now(),
@@ -103,7 +101,6 @@ module.exports={
             if(button.id === "regret-join-team-button"){
                 msg.edit(`> **Done!**`, {
                     embed:{
-                        thumbnail: { url: team.info.teamIcon },
                         description: `You will no longer join to the team **${team.info.teamName}**\nYou can still join at any time`,
                         color: bot.config.embed_color,
                         timestamp: Date.now(),
