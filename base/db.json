@@ -1,1 +1,241 @@
-{"unlocks":[{"lvl":3,"badge":"<:sq_b1:837840268081758248>"},{"lvl":6,"badge":"<:sq_b2:837840558231781416>"},{"lvl":9,"badge":"<:sq_b3:837840860712271934>"},{"lvl":12,"badge":"<:sq_b4:837841317630967858>"},{"lvl":18,"badge":"<:sq_b5:837841864777924608>"},{"lvl":21,"badge":"<:sq_b6:837842076720168960>"},{"lvl":24,"badge":"<:sq_b7:837842235809726524>"},{"lvl":30,"badge":"<:sq_b8:837843254430531635>"},{"lvl":33,"badge":"<:sq_b9:837843373954957312>"},{"lvl":36,"badge":"<:sq_b10:837843532072747048>"}],"messages":{"args":"This command needs some speciall arguments to work properly","err":"Looks like something went wrong while running the command..","maint":"Looks like the command you're trying to run is **Under Maintenance**. Come back later and run the command again"},"event":{"running":true,"deadline":1625412866620},"feedbacks":{"data":[{"feedbackId":"021x-b2b3-8x64","author":{"username":"Kyro#9099","id":"639931530638131214"},"content":{"title":null,"feedback":null,"rating":null}}]},"teams":[{"info":{"teamName":"epic-team","teamDesc":null,"teamIcon":"https://cdn.discordapp.com/avatars/639931530638131214/9089e590efa96ebe81efb05f93ab74e8.png?size=4096"},"team":{"teamCode":"team/2cy551-zcba91","teamOwner":"639931530638131214","teamMembers":[{"userID":"639931530638131214","contribution":{"games":0,"vict":0}}],"teamChallenges":[{"name":"Raise your team to the level 2","reward":120,"type":"raise","allMembers":false,"completed":false}]},"leveling":{"xp":0,"rxp":150,"lvl":0}}],"data":[{"userID":"639931530638131214","connection":{"firstPlayed":"1/5/2021","firstLast":"10/5/2021"},"profile":{"badge":{"badges":["<:sq_b12:852690936788942878>"]},"gamesPlayed":1,"gamesWon":1,"gamesLost":0,"gridsColored":6,"powersTaken":0},"leveling":{"xp":0,"nxp":300,"lvl":2}},{"userID":"705580144936484915","connection":{"firstPlayed":null,"firstLast":null},"profile":{"badge":{"badges":[]},"gamesPlayed":0,"gamesWon":0,"gamesLost":0,"gridsColored":0,"powersTaken":0},"leveling":{"xp":0,"nxp":150,"lvl":1}},{"userID":"390156982730096640","connection":{"firstPlayed":null,"firstLast":null},"profile":{"badge":{"badges":[]},"gamesPlayed":0,"gamesWon":0,"gamesLost":0,"gridsColored":0,"powersTaken":0},"leveling":{"xp":0,"nxp":150,"lvl":1}},{"userID":"296340768618971146","connection":{"firstPlayed":null,"firstLast":null},"profile":{"badge":{"badges":[]},"gamesPlayed":0,"gamesWon":0,"gamesLost":0,"gridsColored":0,"powersTaken":0},"leveling":{"xp":0,"nxp":150,"lvl":1}},{"userID":"795696887511908412","connection":{"firstPlayed":null,"firstLast":null},"profile":{"badge":{"badges":[]},"gamesPlayed":0,"gamesWon":0,"gamesLost":0,"gridsColored":0,"powersTaken":0},"leveling":{"xp":0,"nxp":150,"lvl":1}},{"userID":"530934976074743809","connection":{"firstPlayed":null,"firstLast":null},"profile":{"badge":{"badges":[]},"gamesPlayed":0,"gamesWon":0,"gamesLost":0,"gridsColored":0,"powersTaken":0},"leveling":{"xp":0,"nxp":150,"lvl":1}}]}
+{
+  "unlocks": [
+    {
+      "lvl": 3,
+      "badge": "<:sq_b1:837840268081758248>"
+    },
+    {
+      "lvl": 6,
+      "badge": "<:sq_b2:837840558231781416>"
+    },
+    {
+      "lvl": 9,
+      "badge": "<:sq_b3:837840860712271934>"
+    },
+    {
+      "lvl": 12,
+      "badge": "<:sq_b4:837841317630967858>"
+    },
+    {
+      "lvl": 18,
+      "badge": "<:sq_b5:837841864777924608>"
+    },
+    {
+      "lvl": 21,
+      "badge": "<:sq_b6:837842076720168960>"
+    },
+    {
+      "lvl": 24,
+      "badge": "<:sq_b7:837842235809726524>"
+    },
+    {
+      "lvl": 30,
+      "badge": "<:sq_b8:837843254430531635>"
+    },
+    {
+      "lvl": 33,
+      "badge": "<:sq_b9:837843373954957312>"
+    },
+    {
+      "lvl": 36,
+      "badge": "<:sq_b10:837843532072747048>"
+    }
+  ],
+  "messages": {
+    "args": "This command needs some speciall arguments to work properly",
+    "err": "Looks like something went wrong while running the command..",
+    "maint": "Looks like the command you're trying to run is **Under Maintenance**. Come back later and run the command again"
+  },
+  "event": {
+    "running": true,
+    "deadline": 1625412866620
+  },
+  "feedbacks": {
+    "data": [
+      {
+        "feedbackId": "021x-b2b3-8x64",
+        "author": {
+          "username": "Kyro#9099",
+          "id": "639931530638131214"
+        },
+        "content": {
+          "title": null,
+          "feedback": null,
+          "rating": null
+        }
+      }
+    ]
+  },
+  "teams": [
+    {
+      "info": {
+        "teamName": "epic-team",
+        "teamDesc": null,
+        "teamIcon": "https://cdn.discordapp.com/avatars/639931530638131214/9089e590efa96ebe81efb05f93ab74e8.png?size=4096"
+      },
+      "team": {
+        "teamCode": "team/2cy551-zcba91",
+        "teamOwner": "639931530638131214",
+        "teamMembers": [
+          {
+            "userID": "639931530638131214",
+            "contribution": {
+              "games": 0,
+              "vict": 0
+            }
+          }
+        ],
+        "teamChallenges": [
+          {
+            "name": "Raise your team to the level 2",
+            "reward": 120,
+            "type": "raise",
+            "allMembers": false,
+            "completed": false
+          }
+        ]
+      },
+      "leveling": {
+        "xp": 0,
+        "rxp": 150,
+        "lvl": 0
+      }
+    }
+  ],
+  "data": [
+    {
+      "userID": "639931530638131214",
+      "connection": {
+        "firstPlayed": "1/5/2021",
+        "firstLast": "10/5/2021"
+      },
+      "profile": {
+        "badge": {
+          "badges": [
+            "<:sq_b12:852690936788942878>"
+          ]
+        },
+        "gamesPlayed": 1,
+        "gamesWon": 1,
+        "gamesLost": 0,
+        "gridsColored": 6,
+        "powersTaken": 0
+      },
+      "leveling": {
+        "xp": 0,
+        "nxp": 300,
+        "lvl": 2
+      }
+    },
+    {
+      "userID": "705580144936484915",
+      "connection": {
+        "firstPlayed": null,
+        "firstLast": null
+      },
+      "profile": {
+        "badge": {
+          "badges": []
+        },
+        "gamesPlayed": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "gridsColored": 0,
+        "powersTaken": 0
+      },
+      "leveling": {
+        "xp": 0,
+        "nxp": 150,
+        "lvl": 1
+      }
+    },
+    {
+      "userID": "390156982730096640",
+      "connection": {
+        "firstPlayed": null,
+        "firstLast": null
+      },
+      "profile": {
+        "badge": {
+          "badges": []
+        },
+        "gamesPlayed": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "gridsColored": 0,
+        "powersTaken": 0
+      },
+      "leveling": {
+        "xp": 0,
+        "nxp": 150,
+        "lvl": 1
+      }
+    },
+    {
+      "userID": "296340768618971146",
+      "connection": {
+        "firstPlayed": null,
+        "firstLast": null
+      },
+      "profile": {
+        "badge": {
+          "badges": []
+        },
+        "gamesPlayed": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "gridsColored": 0,
+        "powersTaken": 0
+      },
+      "leveling": {
+        "xp": 0,
+        "nxp": 150,
+        "lvl": 1
+      }
+    },
+    {
+      "userID": "795696887511908412",
+      "connection": {
+        "firstPlayed": null,
+        "firstLast": null
+      },
+      "profile": {
+        "badge": {
+          "badges": []
+        },
+        "gamesPlayed": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "gridsColored": 0,
+        "powersTaken": 0
+      },
+      "leveling": {
+        "xp": 0,
+        "nxp": 150,
+        "lvl": 1
+      }
+    },
+    {
+      "userID": "530934976074743809",
+      "connection": {
+        "firstPlayed": null,
+        "firstLast": null
+      },
+      "profile": {
+        "badge": {
+          "badges": []
+        },
+        "gamesPlayed": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "gridsColored": 0,
+        "powersTaken": 0
+      },
+      "leveling": {
+        "xp": 0,
+        "nxp": 150,
+        "lvl": 1
+      }
+    }
+  ]
+}
