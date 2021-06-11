@@ -87,7 +87,7 @@ module.exports={
 
         if(!teamName || !teamIcon) return message.channel.send(`> **Arguments**`, {
             embed:{
-                description: `${bot.db.messages.args}\n> \`${bot.config.prefix}newteam <team name> <team icon>\`\n\n> **Note:** The \`team icon\` should be an emoji, any emoji is acceptable for your team icon`,
+                description: `${bot.db.messages.args}\n> \`${bot.config.prefix}newteam <team name> <team icon>[url]\`\n\n> **Note:** The \`team icon\` should be an emoji, any emoji is acceptable for your team icon\n> For while, your team name must be separated with "-" if the name have spaces`,
                 color: bot.config.embed_color,
                 timestamp: Date.now(),
                 footer: { text: `${bot.user.username}`}
@@ -97,6 +97,17 @@ module.exports={
         if(teamName.length > 20 || teamName.length < 4) return message.channel.send(`> **Oops!**`, {
             embed:{
                 description: `${bot.db.messages.err}\n> \`Your team name must have 4 - 20 characters\``,
+                color: bot.config.embed_color,
+                timestamp: Date.now(),
+                footer: { text: `${bot.user.username}`}
+            }
+        })
+
+        let regExURL = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
+
+        if(!regExURL.test(teamIcon)) return message.channel.send(`> **Oops!**`, {
+            embed:{
+                description: `${bot.db.messages.err}\n> \`Your team icon is not a valid URL for icon\``,
                 color: bot.config.embed_color,
                 timestamp: Date.now(),
                 footer: { text: `${bot.user.username}`}
@@ -123,6 +134,7 @@ module.exports={
 
         message.channel.send(`> **Done!**`, {
             embed:{
+                thumbnail: { url: team.info.teamIcon },
                 description: `You have created a new team!\nYour team will be known as **${team.info.teamName}**, awesome!\n\n**Now..**\nYou can get some members on your team and make your team the **Best Team** ever. Good luck\n> Invite members with the code: **${team.team.teamCode}**`,
                 color: bot.config.embed_color,
                 timestamp: Date.now(),

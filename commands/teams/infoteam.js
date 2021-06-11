@@ -29,6 +29,7 @@ module.exports={
 
         message.channel.send(`> **Team Information**\n> Team: **${team.info.teamName}**`, {
             embed:{
+                thumbnail: { url: team.info.teamIcon },
                 description: `You're checking out the information about the team **${team.info.teamName}**`,
                 fields:[
                     {name: `Team`, value: `> **Team Name:** ${team.info.teamName}\n> **Team Description:** ${team.info.teamDesc ? team.info.teamDesc : `N/A`}\n> **Team Members:** ${team.team.teamMembers.length}`},
