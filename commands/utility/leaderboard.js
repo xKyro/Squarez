@@ -6,6 +6,7 @@ module.exports={
   category: "utility",
   description: "Feeling competitive? You can see who is the best player here!",
   aliases: ["ranking", "leaders", "top"],
+  isBeta: false,
   run: async(bot, message, args) =>{
 
     let type = args[0]
@@ -34,7 +35,7 @@ module.exports={
         }
     })
 
-    if(type === "c") data = data.filter(user => !user.profile.badge.badges.includes("<:sq_11:837843829833990235>"))
+    if(type === "c") data = data.filter(user => !user.profile.badge.badges.includes("<:sq_b11:837843829833990235>"))
 
     data = data.sort((a, b) => b.leveling.lvl === a.leveling.lvl ? b.leveling.xp - a.leveling.xp : b.leveling.lvl - a.leveling.lvl)
 

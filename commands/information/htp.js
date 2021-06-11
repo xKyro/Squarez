@@ -5,6 +5,7 @@ module.exports={
   category: "information",
   description: "Lost? You can see the How to Play guide and try it",
   aliases: ["htp"],
+  isBeta: false,
   run: async(bot, message, args) =>{
 
     const embed = new MessageEmbed()

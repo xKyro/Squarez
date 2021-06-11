@@ -5,6 +5,7 @@ module.exports={
     category: "information",
     description: "See the latency between squarez and the Discord API",
     aliases: ["pong"],
+    isBeta: false,
     run: async(bot, message, args) => {
 
         const msg = await message.channel.send(`> **Pinging..**`, {

@@ -5,6 +5,7 @@ module.exports={
   category: "controller",
   description: "See the information about the game you're in",
   aliases: [],
+  isBeta: false,
   run: async(bot, message, args) =>{
     
     let able = false

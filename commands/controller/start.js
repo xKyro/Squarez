@@ -7,6 +7,7 @@ module.exports={
   category: "controller",
   description: "Let the fun begin! Let's see who will win",
   aliases: ["begin"],
+  isBeta: false,
   run: async(bot, message, args) =>{
     
     let able = false

@@ -6,6 +6,7 @@ module.exports={
   category: "information",
   description: "The main help center",
   aliases: ["help-me"],
+  isBeta: false,
   run: async(bot, message, args) =>{
 
     let index = 0
@@ -116,7 +117,7 @@ function makeEmbeds(commands, bot){
     .setAuthor(`${cat} | ${commands[i].commands.length} commands`)
     .setThumbnail(bot.user.displayAvatarURL({size: 2048, dynamic:true}))
     .addFields(
-      {name: `Commands`, value: `\`\`\`${commands[i].commands.map(cmd => { return `[>] ${cmd}:\n${bot.commands.get(cmd).aliases.length > 0 ? bot.commands.get(cmd).aliases.map(ali => { return `  [+] ${ali}` }).join("\n") : `  [x] No aliases`}\n  [!] ${bot.commands.get(cmd).description}\n` }).join("\n")}\`\`\``}
+      {name: `Commands`, value: `\`\`\`${commands[i].commands.map(cmd => { return `[>] ${cmd}:\n${bot.commands.get(cmd).aliases.length > 0 ? bot.commands.get(cmd).aliases.map(ali => { return `  [+] ${ali}` }).join("\n") : `  [x] No aliases`}\n  [!] ${bot.commands.get(cmd).description}${bot.commands.get(cmd).isBeta === true ? `\n  [B] This command is a beta feature, look for bugs or errors and report them\n` : `\n`}` }).join("\n")}\`\`\``}
     )
     .setColor(bot.config.embed_color)
     .setTimestamp(Date.now())

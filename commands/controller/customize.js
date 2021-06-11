@@ -6,6 +6,7 @@ module.exports={
   category: "controller",
   description: "Bring your crazy ideas! Customize your game to make it more fun",
   aliases: ["custom"],
+  isBeta: false,
   run: async(bot, message, args) =>{
     
     //Check game instance

@@ -5,6 +5,7 @@ module.exports={
   category: "utility",
   description: "See other players information using this",
   aliases: [],
+  isBeta: false,
   run: async(bot, message, args) =>{
     
     const mention = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member

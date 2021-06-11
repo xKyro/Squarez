@@ -1,11 +1,12 @@
 const {MessageEmbed} = require("discord.js")
-const { MessageButton } = require("discord-buttons")
+const { MessageButton, MessageActionRow } = require("discord-buttons")
 const fs = require("fs")
 module.exports={
   name: "join",
   category: "controller",
   description: "Want to play with others or friends? Join their game",
   aliases: [],
+  isBeta: false,
   run: async(bot, message, args) =>{
     const cross = bot.guilds.cache.get("836264176149725226").emojis.cache.find(em => em.name.includes("cross"))
     const check = bot.guilds.cache.get("836264176149725226").emojis.cache.find(em => em.name.includes("check"))
@@ -20,7 +21,11 @@ module.exports={
     .setLabel("Decline it!")
     .setID("decline-player-button")
 
-    const buttons = [acceptRequest, declineRequest]
+    const requestActions = new MessageActionRow()
+    .addComponent(acceptRequest)
+    .addComponent(declineRequest)
+
+    // const buttons = [acceptRequest, declineRequest]
     
     let gameCode = args[0]
     let able = true
@@ -117,7 +122,7 @@ module.exports={
           timestamp: Date.now(),
           footer: { text: `${bot.user.username}`}
         },
-        buttons: buttons
+        component: requestActions
       }).catch(err =>{
         return message.channel.send(`> **Oops!**`, {
           embed:{

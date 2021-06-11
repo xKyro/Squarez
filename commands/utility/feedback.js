@@ -7,6 +7,7 @@ module.exports={
     category: "utility",
     description: "Send me your opinion/feedback about the bot! What would you like to be implemented? or Let me your opinion",
     aliases: ["fb"],
+    isBeta: false,
     run: async(bot, message, args) => {
 
         let myFeedback = {

@@ -5,6 +5,7 @@ module.exports={
     category: "controller",
     description: "You can see the avaible games",
     aliases: ["gamelist", "games"],
+    isBeta: false,
     run: async(bot, message, args) => {
 
         let index = 0

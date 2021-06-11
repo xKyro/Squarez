@@ -66,6 +66,7 @@
       }
     ]
   },
+  "teams": [],
   "data": [
     {
       "userID": "639931530638131214",
@@ -75,7 +76,9 @@
       },
       "profile": {
         "badge": {
-          "badges": []
+          "badges": [
+            "<:sq_b12:852690936788942878>"
+          ]
         },
         "gamesPlayed": 1,
         "gamesWon": 1,

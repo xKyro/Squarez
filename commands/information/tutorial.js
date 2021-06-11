@@ -5,6 +5,7 @@ module.exports={
   category: "information",
   description: "This is the tutorial. Come here to understand the basics of Squarez",
   aliases: ["tuto"],
+  isBeta: false,
   run: async(bot, message, args) =>{
     
     let grid_length = 6

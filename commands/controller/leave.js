@@ -1,11 +1,12 @@
 const {MessageEmbed} = require("discord.js")
-const { MessageButton } = require("discord-buttons")
+const { MessageButton, MessageActionRow } = require("discord-buttons")
 const fs = require("fs")
 module.exports={
   name: "leave",
   category: "controller",
   description: "Leave the game, if you're done for now",
   aliases: [],
+  isBeta: false,
   run: async(bot, message, args) =>{
     
     let gameCode = ""
@@ -23,7 +24,11 @@ module.exports={
     .setLabel("Stay")
     .setID("stay-game-button")
 
-    const buttons = [stayButton, leaveButton]
+    const leaveActions = new MessageActionRow()
+    .addComponent(stayButton)
+    .addComponent(leaveButton)
+
+    // const buttons = [stayButton, leaveButton]
 
     const game = bot.games.get(gameCode)
 
@@ -43,7 +48,7 @@ module.exports={
             timestamp: Date.now(),
             footer: { text: `${bot.user.username}` }
         },
-        buttons: buttons
+        component: leaveActions
     })
 
     let filter = (button) => button.clicker.user.id === message.author.id
