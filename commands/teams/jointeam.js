@@ -64,6 +64,15 @@ module.exports={
             }
         })
 
+        if(data.leveling.lvl < team.info.teamReqLvl) return message.channel.send(`> **Oops!**`, {
+            embed:{
+                description: `${bot.db.messages.err}\n> \`To join the team "${team.info.teamName}" you must be level ${team.info.teamReqLvl} or higher\``,
+                color: bot.config.embed_color,
+                timestamp: Date.now(),
+                footer: { text: `${bot.user.username}`}
+            }
+        })
+
         const msg = await message.channel.send(`> **Join to ${team.info.teamName}?**`, {
             embed:{
                 description: `Do you want to join to the team **${team.info.teamName}?**\nThe team has **${team.team.teamMembers.length}** members on it, the team will have **${team.team.teamMembers.length+1}** members`,

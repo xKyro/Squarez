@@ -95,14 +95,14 @@ module.exports={
             }
         })
 
-        // if(data.leveling.lvl < 5) return message.channel.send(`> **Oops!**`, {
-        //     embed:{
-        //         description: `${bot.db.messages.err}\n> \`You must be level 5 to create your own team\``,
-        //         color: bot.config.embed_color,
-        //         timestamp: Date.now(),
-        //         footer: { text: `${bot.user.username}`}
-        //     }
-        // })
+        if(data.leveling.lvl < 5) return message.channel.send(`> **Oops!**`, {
+            embed:{
+                description: `${bot.db.messages.err}\n> \`You must be level 5 to create your own team\``,
+                color: bot.config.embed_color,
+                timestamp: Date.now(),
+                footer: { text: `${bot.user.username}`}
+            }
+        })
         
         let teamName = args[0]
         let teamIcon = args[1]

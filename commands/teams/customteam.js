@@ -38,6 +38,7 @@ module.exports={
         .addComponents([modifyButton, saveButton, resetButton, closeButton])
 
         const team = bot.db.teams.find(team => team.team.teamOwner === message.author.id)
+        const svProfile = bot.guilds.cache.get("838086291458621460").members.cache.get(message.author.id) ? bot.guilds.cache.get("838086291458621460").members.cache.get(message.author.id).roles.cache.get("852972522823221298") : null
 
         if(!team) return message.channel.send(`> **Oops!**`, {
             embed:{
@@ -230,42 +231,53 @@ module.exports={
                             propMessages.first().delete()
                             break
                         case "team.banner":
-                            beforeMsg = await message.channel.send(`> **Change team Banner**`, {
-                                embed:{
-                                    description: `Enter a new team banner, the team banner must be a **valid** URL with an image`,
-                                    fields:[
-                                        {name: `Current Banner`, value: `Cannot show team banner`}
-                                    ],
-                                    color: bot.config.embed_color,
-                                    timestamp: Date.now(),
-                                    footer: { text: `${bot.user.username}`}
-                                },
-                            })
-
-                            propMessages = await msg.channel.awaitMessages(tFilter, {max: 1})
-                            if(!regExURL.test(propMessages.first().content.trim())){
-                                beforeMsg.delete()
+                            if(!svProfile){ 
                                 message.channel.send(`> **Oops!**`, {
                                     embed:{
-                                        description: `${bot.db.messages.err}\n> \`Your team banner is not a valid URL\``,
+                                        description: `${bot.db.messages.err}\n> \`You cannot edit your team banner without the role Supporter (Squarez official server)\``,
                                         color: bot.config.embed_color,
                                         timestamp: Date.now(),
                                         footer: { text: `${bot.user.username}`}
                                     },
                                 }).then(msg => { msg.delete({timeout: 5000}) })
                             }else{
-                                team.info.teamBanner = propMessages.first().content.trim()
-                                beforeMsg.delete()
-                                message.channel.send(`> **Done!**`, {
-                                    embed:{
-                                        description: `Your team banner has been successfully changed`,
-                                        color: bot.config.embed_color,
-                                        timestamp: Date.now(),
-                                        footer: { text: `${bot.user.username}`}
-                                    },
-                                }).then(msg => { msg.delete({timeout: 5000}) })
+                              beforeMsg = await message.channel.send(`> **Change team Banner**`, {
+                                  embed:{
+                                      description: `Enter a new team banner, the team banner must be a **valid** URL with an image`,
+                                      fields:[
+                                          {name: `Current Banner`, value: `Cannot show team banner`}
+                                      ],
+                                      color: bot.config.embed_color,
+                                      timestamp: Date.now(),
+                                      footer: { text: `${bot.user.username}`}
+                                  },
+                              })
+
+                              propMessages = await msg.channel.awaitMessages(tFilter, {max: 1})
+                              if(!regExURL.test(propMessages.first().content.trim())){
+                                  beforeMsg.delete()
+                                  message.channel.send(`> **Oops!**`, {
+                                      embed:{
+                                          description: `${bot.db.messages.err}\n> \`Your team banner is not a valid URL\``,
+                                          color: bot.config.embed_color,
+                                          timestamp: Date.now(),
+                                          footer: { text: `${bot.user.username}`}
+                                      },
+                                  }).then(msg => { msg.delete({timeout: 5000}) })
+                              }else{
+                                  team.info.teamBanner = propMessages.first().content.trim()
+                                  beforeMsg.delete()
+                                  message.channel.send(`> **Done!**`, {
+                                      embed:{
+                                          description: `Your team banner has been successfully changed`,
+                                          color: bot.config.embed_color,
+                                          timestamp: Date.now(),
+                                          footer: { text: `${bot.user.username}`}
+                                      },
+                                  }).then(msg => { msg.delete({timeout: 5000}) })
+                              }
+                              propMessages.first().delete()
                             }
-                            propMessages.first().delete()
                             break
                         case "team.requiredLvl":
                             beforeMsg = await message.channel.send(`> **Change team Required Level**`, {
@@ -303,45 +315,56 @@ module.exports={
                                     },
                                 }).then(msg => { msg.delete({timeout: 5000}) })
                             }
-                            propMessages.first().delete()
                             break
                         case "team.invite":
-                            beforeMsg = await message.channel.send(`> **Change team Invite**`, {
-                                embed:{
-                                    description: `Enter a new team invite, the team invite must be **4 - 12** characters in length`,
-                                    fields:[
-                                        {name: `Current Invite`, value: `${team.team.teamCode ? team.team.teamCode : `No invite code`}`}
-                                    ],
-                                    color: bot.config.embed_color,
-                                    timestamp: Date.now(),
-                                    footer: { text: `${bot.user.username}`}
-                                },
-                            })
-
-                            propMessages = await msg.channel.awaitMessages(tFilter, {max: 1})
-                            if(propMessages.first().content.trim().length < 4 || propMessages.first().content.trim().length > 12){
-                                beforeMsg.delete()
+                            if(!svProfile){
                                 message.channel.send(`> **Oops!**`, {
                                     embed:{
-                                        description: `${bot.db.messages.err}\n> \`Your team invite is not in the range 4 - 12 characters\``,
+                                        description: `${bot.db.messages.err}\n> \`You cannot edit your team invite without the role Supporter (Squarez official server)\``,
                                         color: bot.config.embed_color,
                                         timestamp: Date.now(),
                                         footer: { text: `${bot.user.username}`}
                                     },
                                 }).then(msg => { msg.delete({timeout: 5000}) })
                             }else{
-                                team.team.teamCode = "team/" + propMessages.first().content.trim()
-                                beforeMsg.delete()
-                                message.channel.send(`> **Done!**`, {
+                                beforeMsg = await message.channel.send(`> **Change team Invite**`, {
                                     embed:{
-                                        description: `Your team invite has been successfully changed to **${team.team.teamCode}**`,
+                                        description: `Enter a new team invite, the team invite must be **4 - 12** characters in length`,
+                                        fields:[
+                                            {name: `Current Invite`, value: `${team.team.teamCode ? team.team.teamCode : `No invite code`}`}
+                                        ],
                                         color: bot.config.embed_color,
                                         timestamp: Date.now(),
                                         footer: { text: `${bot.user.username}`}
                                     },
-                                }).then(msg => { msg.delete({timeout: 5000}) })
+                                })
+
+                                propMessages = await msg.channel.awaitMessages(tFilter, {max: 1})
+                                if(propMessages.first().content.trim().length < 4 || propMessages.first().content.trim().length > 12){
+                                    beforeMsg.delete()
+                                    message.channel.send(`> **Oops!**`, {
+                                        embed:{
+                                            description: `${bot.db.messages.err}\n> \`Your team invite is not in the range 4 - 12 characters\``,
+                                            color: bot.config.embed_color,
+                                            timestamp: Date.now(),
+                                            footer: { text: `${bot.user.username}`}
+                                        },
+                                    }).then(msg => { msg.delete({timeout: 5000}) })
+                                }else{
+                                    team.team.teamCode = "team/" + propMessages.first().content.trim()
+                                    beforeMsg.delete()
+                                    message.channel.send(`> **Done!**`, {
+                                        embed:{
+                                            description: `Your team invite has been successfully changed to **${team.team.teamCode}**`,
+                                            color: bot.config.embed_color,
+                                            timestamp: Date.now(),
+                                            footer: { text: `${bot.user.username}`}
+                                        },
+                                    }).then(msg => { msg.delete({timeout: 5000}) })
+                                }
+                                propMessages.first().delete()
                             }
-                            propMessages.first().delete()
+                            
                             break
                         default:
                             message.channel.send(`> **Oops!**`, {
