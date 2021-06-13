@@ -64,7 +64,16 @@ module.exports={
             })
             bot.games.get(gameCode).gamePlayersJoined = newPlayers
 
-            await msg.delete()
+            await msg.delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
+              embed:{
+                description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
+                color: bot.config.embed_color,
+                timestamp: Date.now(),
+                footer:{
+                  text: bot.user.username
+                }
+              }
+            }) })
 
             message.channel.send(`> **Done!**`, {
                 embed:{
@@ -79,7 +88,16 @@ module.exports={
             if(game.gamePlayersJoined.length <= 0) bot.games.delete(gameCode)
         }
         if(button.id === "stay-game-button"){
-            await msg.delete()
+            await msg.delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
+              embed:{
+                description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
+                color: bot.config.embed_color,
+                timestamp: Date.now(),
+                footer:{
+                  text: bot.user.username
+                }
+              }
+            }) })
 
             message.channel.send(`> **Done!**`, {
                 embed:{

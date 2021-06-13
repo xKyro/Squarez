@@ -35,7 +35,7 @@ module.exports={
         }
     })
 
-    if(type === "c") data = data.filter(user => !user.profile.badge.badges.includes("<:sq_b11:837843829833990235>"))
+    if(type === "c") data = data.filter(user => !user.profile.badge.badges.includes("<:bad_10:853499394854354954>"))
 
     data = data.sort((a, b) => b.leveling.lvl === a.leveling.lvl ? b.leveling.xp - a.leveling.xp : b.leveling.lvl - a.leveling.lvl)
 

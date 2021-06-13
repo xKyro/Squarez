@@ -38,7 +38,7 @@ module.exports={
             fields:[
                 {name: `Connection`, value: `> First Played: **${data.connection.firstPlayed ? `${data.connection.firstPlayed}` : `Still not played the game`}**\n> Last Played: **${data.connection.firstLast ? `${data.connection.firstLast}` : `Still not played the game`}**`},
                 {name: `Profile`, value: `> Badges: ${data.profile.badge.badges.length > 0 ? data.profile.badge.badges.map(bg => { return `${bg}` }).join(" ") : `**Doesn't have any badge yet**`}\n> Times Played: **${data.profile.gamesPlayed} games**\n> Victories: **${data.profile.gamesWon} games**\n> Defeats: **${data.profile.gamesLost} games**\n> Grids: **${data.profile.gridsColored} grids**\n> Powers: **${data.profile.powersTaken} powers**`},
-                {name: `Leveling`, value: `> Experience: **${data.leveling.xp} / ${data.leveling.nxp}** **(${Math.floor(data.leveling.xp / data.leveling.nxp) * 100}%)**\n> Level: **${data.leveling.lvl}**`}
+                {name: `Leveling`, value: `> Experience: **${data.leveling.xp} / ${data.leveling.nxp}** **(${Math.floor((data.leveling.xp / data.leveling.nxp) * 100)}%)**\n> Level: **${data.leveling.lvl}**`}
             ],
             timestamp: Date.now(),
             color: bot.config.embed_color,

@@ -69,7 +69,16 @@ module.exports={
             msg.edit(embeds[index])
         }
         if(reaction.emoji === cross){
-            msg.delete()
+            msg.delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
+              embed:{
+                description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
+                color: bot.config.embed_color,
+                timestamp: Date.now(),
+                footer:{
+                  text: bot.user.username
+                }
+              }
+            }) })
         }
         })
     }

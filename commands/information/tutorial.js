@@ -118,7 +118,16 @@ module.exports={
         .setFooter(`${bot.user.username}`)
 
         current_objective++
-        await m.delete()
+        await m.delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
+          embed:{
+            description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
+            color: bot.config.embed_color,
+            timestamp: Date.now(),
+            footer:{
+              text: bot.user.username
+            }
+          }
+        }) })
         if(current_objective >= objectives.length){
 
           const end_embed = new MessageEmbed()

@@ -132,7 +132,7 @@ bot.on("message", async(message) =>{
 
   if(Date.now() >= bot.db.event.deadline && bot.db.event.running){
     let leaderboard = bot.db.data.sort((a, b) => b.leveling.lvl === a.leveling.lvl ? b.leveling.xp - a.leveling.xp : b.leveling.lvl - a.leveling.xp)
-    leaderboard = leaderboard.filter(user => !user.profile.badge.badges.includes("<:sq_b11:837843829833990235>") && user.profile.gamesPlayed >= 1)
+    leaderboard = leaderboard.filter(user => !user.profile.badge.badges.includes("<:bad_10:853499394854354954>") && user.profile.gamesPlayed >= 1)
 
     let date = new Date()
     let days = new Date(date.getFullYear(), date.getMonth() + 2, 0).getDate()
@@ -146,7 +146,7 @@ bot.on("message", async(message) =>{
       embed:{
         description: `The event of **${new Intl.DateTimeFormat("en-us").format(Date.now())}** has reached to their end!\nWe have **${leaderboard.length} winners** to announce`,
         fields:[
-          {name: `Winners`, value: `${leaderboard.map(user => { return `**${bot.users.cache.get(user.userID) ? bot.users.cache.get(user.userID) : `Unknown user`}** : ${user.profile.badge.badges.includes("<:sq_b11:837843829833990235>") ? `They have claimed their badge! Hope they like it` : `They haven't claimed their badge yet.. Let's wait until they claim it`}` })}`}
+          {name: `Winners`, value: `${leaderboard.map(user => { return `**${bot.users.cache.get(user.userID) ? bot.users.cache.get(user.userID) : `Unknown user`}** : ${user.profile.badge.badges.includes("<:bad_10:853499394854354954>") ? `They have claimed their badge! Hope they like it` : `They haven't claimed their badge yet.. Let's wait until they claim it`}` })}`}
         ],
         image: { url: `https://cdn.discordapp.com/attachments/836246355693142056/849671017089597530/congrats.png` },
         color: bot.config.embed_color,
@@ -172,7 +172,7 @@ bot.on("message", async(message) =>{
           embed:{
             description: `Hey there!\nHow's your day going? I hope that you're doing well\n\nI'm here to announce something speciall for you, it's about the event of every month`,
             fields:[
-              {name: `Statistics`, value: `> **Final rank:** #${i+1}\n> **Prize:** You have received an unique and speciall badge in your profile of Squarez. This is how the badge looks like: <:sq_b11:837843829833990235>\n> Enjoy it!`}
+              {name: `Statistics`, value: `> **Final rank:** #${i+1}\n> **Prize:** You have received an unique and speciall badge in your profile of Squarez. This is how the badge looks like: <:bad_10:853499394854354954>\n> Enjoy it!`}
             ],
             color: bot.config.embed_color,
             timestamp: Date.now(),
@@ -200,7 +200,7 @@ bot.on("message", async(message) =>{
               .setID("okay-button")
 
               const player = bot.db.data.find(pl => pl.userID === button.clicker.user.id)
-              if(player.profile.badge.badges.includes("<:sq_b11:837843829833990235>")) return button.channel.send(`> **Oops!**`, {
+              if(player.profile.badge.badges.includes("<:bad_10:853499394854354954>")) return button.channel.send(`> **Oops!**`, {
                 embed:{
                   description: `Looks like you already have the badge on your profile..\nThat badge looks pretty good on your profile :)`,
                   color: bot.config.embed_color,
@@ -222,7 +222,7 @@ bot.on("message", async(message) =>{
                 return
               }
 
-              player.profile.badge.badges.push("<:sq_b11:837843829833990235>")
+              player.profile.badge.badges.push("<:bad_10:853499394854354954>")
 
               button.channel.send(`> **Sweet!**`, {
                 embed:{
@@ -238,7 +238,7 @@ bot.on("message", async(message) =>{
                 embed:{
                   description: `The event of **${new Intl.DateTimeFormat("en-us").format(Date.now())}** has reached to their end!\nWe have **${leaderboard.length} winners** to announce`,
                   fields:[
-                    {name: `Winners`, value: `${leaderboard.map(user => { return `**${bot.users.cache.get(user.userID) ? bot.users.cache.get(user.userID) : `Unknown user`}** : ${user.profile.badge.badges.includes("<:sq_b11:837843829833990235>") ? `They have claimed their badge! Hope they like it` : `They haven't claimed their badge yet.. Let's wait until they claim it`}` })}`}
+                    {name: `Winners`, value: `${leaderboard.map(user => { return `**${bot.users.cache.get(user.userID) ? bot.users.cache.get(user.userID) : `Unknown user`}** : ${user.profile.badge.badges.includes("<:bad_10:853499394854354954>") ? `They have claimed their badge! Hope they like it` : `They haven't claimed their badge yet.. Let's wait until they claim it`}` })}`}
                   ],
                   image: { url: `https://cdn.discordapp.com/attachments/836246355693142056/849671017089597530/congrats.png` },
                   color: bot.config.embed_color,

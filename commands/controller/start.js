@@ -56,7 +56,16 @@ module.exports={
 
     setTimeout(async function(){
 
-      await msg.delete()
+      await msg.delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
+        embed:{
+          description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
+          color: bot.config.embed_color,
+          timestamp: Date.now(),
+          footer:{
+            text: bot.user.username
+          }
+        }
+      }) })
       game.gameInit = (Date.now() + ms(game.gameDuration)) //Set the remaining time to be displayed in every round
       game.gamePlaying = true
 
@@ -252,7 +261,16 @@ module.exports={
 
         if(gameEnded) return
 
-        if(!movement.some(move => move.activeWhen === first)) return m.delete()
+        if(!movement.some(move => move.activeWhen === first)) return m.delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
+          embed:{
+            description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
+            color: bot.config.embed_color,
+            timestamp: Date.now(),
+            footer:{
+              text: bot.user.username
+            }
+          }
+        }) })
 
         grid[positions[turn].gridInit].gridUI = positions[turn].gridColored
 
@@ -286,7 +304,16 @@ module.exports={
               timestamp: Date.now(),
               footer: { text: `${bot.user.username}`}
             }
-          }).then(m => { m.delete({timeout: 5000}) })
+          }).then(m => { m.delete({timeout: 5000}).catch(err => { if(err) message.channel.send(`> **Oops!**`, {
+            embed:{
+              description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
+              color: bot.config.embed_color,
+              timestamp: Date.now(),
+              footer:{
+                text: bot.user.username
+              }
+            }
+          }) }) })
         }
 
         grid[positions[turn].gridInit + movement.find(move => move.activeWhen === first).move] ? grid[positions[turn].gridInit + movement.find(move => move.activeWhen === first).move].gridUI = positions[turn].gridPlayer : positions[turn].gridInit
@@ -304,7 +331,16 @@ module.exports={
         .setTimestamp()
         .setFooter(`${bot.user.username}`)
 
-        await m.delete()
+        await m.delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
+          embed:{
+            description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
+            color: bot.config.embed_color,
+            timestamp: Date.now(),
+            footer:{
+              text: bot.user.username
+            }
+          }
+        }) })
         //#endregion
 
         //Check for eliminations

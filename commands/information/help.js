@@ -77,7 +77,16 @@ module.exports={
         msg.edit({ embed: embeds[index], component: pageActions })
       }
       if(button.id === "nav-close-page-button"){
-        msg.delete()
+        msg.delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
+          embed:{
+            description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
+            color: bot.config.embed_color,
+            timestamp: Date.now(),
+            footer:{
+              text: bot.user.username
+            }
+          }
+        }) })
       }
     })
   }
@@ -117,7 +126,7 @@ function makeEmbeds(commands, bot){
     .setAuthor(`${cat} | ${commands[i].commands.length} commands`)
     .setThumbnail(bot.user.displayAvatarURL({size: 2048, dynamic:true}))
     .addFields(
-      {name: `Commands`, value: `\`\`\`${commands[i].commands.map(cmd => { return `[>] ${cmd}:\n${bot.commands.get(cmd).aliases.length > 0 ? bot.commands.get(cmd).aliases.map(ali => { return `  [+] ${ali}` }).join("\n") : `  [x] No aliases`}\n  [!] ${bot.commands.get(cmd).description}${bot.commands.get(cmd).isBeta === true ? `\n  [B] This command is a beta feature, look for bugs or errors and report them\n` : `\n`}` }).join("\n")}\`\`\``}
+      {name: `Commands`, value: `\`\`\`${commands[i].commands.map(cmd => { return `[>] ${cmd}:\n${bot.commands.get(cmd).aliases.length > 0 ? bot.commands.get(cmd).aliases.map(ali => { return `  [+] ${ali}` }).join("\n") : `  [x] No aliases`}\n  [!] ${bot.commands.get(cmd).description}${bot.commands.get(cmd).isBeta === true ? `\n  [B] Beta feature\n` : `\n`}` }).join("\n")}\`\`\``}
     )
     .setColor(bot.config.embed_color)
     .setTimestamp(Date.now())
