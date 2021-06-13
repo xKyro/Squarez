@@ -188,7 +188,7 @@ module.exports={
 
             let responses = ["title", "feedback", "rating", "reset", "cancell", "submit"]
             if(!responses.includes(prop)){
-                msg_.delete()
+                msg_.delete().catch(err => { if(err) console.log(err) })
                 message.channel.send(`> **Oops**`, {
                     embed:{
                         description: `${bot.db.messages.err}\n> \`The property "${prop}" is not valid or is unknown\``,
@@ -201,7 +201,7 @@ module.exports={
                 switch(prop){
                     case "reset":
                         myFeedback.reset()
-                        msg_.delete()
+                        msg_.delete().catch(err => { if(err) console.log(err) })
                         message.channel.send(`> **Done!**`, {
                             embed:{
                                 description: `Your feedback information has been cleared to **Default**!`,
@@ -227,7 +227,7 @@ module.exports={
                     case "title":
                         if(res.length >= 4 && res.length <= 20){
                             myFeedback.title = res
-                            msg_.delete()
+                            msg_.delete().catch(err => { if(err) console.log(err) })
                             message.channel.send(`> **Done!**`, {
                                 embed:{
                                     description: `Your feedback title was successfully updated!`,
@@ -250,7 +250,7 @@ module.exports={
                                 component: feedbackActions
                             })
                         }else{
-                            msg_.delete()
+                            msg_.delete().catch(err => { if(err) console.log(err) })
                             message.channel.send(`> **Oops**`, {
                                 embed:{
                                     description: `${bot.db.messages.err}\n> \`Your feedback title is less than 4 or greater than 20 characters\``,
@@ -264,7 +264,7 @@ module.exports={
                     case "feedback":
                         if(res.length >= 6 && res.length <= 512){
                             myFeedback.feedback = res
-                            msg_.delete()
+                            msg_.delete().catch(err => { if(err) console.log(err) })
                             message.channel.send(`> **Done!**`, {
                                 embed:{
                                     description: `Your feedback description was successfully updated!`,
@@ -287,7 +287,7 @@ module.exports={
                                 component: feedbackActions
                             })
                         }else{
-                            msg_.delete()
+                            msg_.delete().catch(err => { if(err) console.log(err) })
                             message.channel.send(`> **Oops**`, {
                                 embed:{
                                     description: `${bot.db.messages.err}\n> \`Your feedback description is less than 6 or greater than 512 characters\``,
@@ -301,7 +301,7 @@ module.exports={
                     case "rating":
                         if(parseInt(res) >= 1 && parseInt(res) <= 10 && !isNaN(res)){
                             myFeedback.rating = res + "★"
-                            msg_.delete()
+                            msg_.delete().catch(err => { if(err) console.log(err) })
                             message.channel.send(`> **Done!**`, {
                                 embed:{
                                     description: `Your feedback rating was successfully updated!`,
@@ -324,7 +324,7 @@ module.exports={
                                 component: feedbackActions
                             })
                         }else{
-                            msg_.delete()
+                            msg_.delete().catch(err => { if(err) console.log(err) })
                             message.channel.send(`> **Oops**`, {
                                 embed:{
                                     description: `${bot.db.messages.err}\n> \`Your feedback rating is not a valid number or your feedback rating is less than 1 or greater than 10\``,

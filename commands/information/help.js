@@ -60,7 +60,7 @@ module.exports={
     // const buttons = [leftButton, closeButton, rightButton]
 
     const msg = await message.channel.send(`> **Help center**\n> If you're lost, check out these useful information`, { embed: embeds[0], component: pageActions })
-    if(embeds.length < 1) return
+    if(embeds.length < 2) return
 
     let filter = (button) => button.clicker.user.id === message.author.id
     const collector = msg.createButtonCollector(filter)
@@ -77,16 +77,7 @@ module.exports={
         msg.edit({ embed: embeds[index], component: pageActions })
       }
       if(button.id === "nav-close-page-button"){
-        msg.delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
-          embed:{
-            description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
-            color: bot.config.embed_color,
-            timestamp: Date.now(),
-            footer:{
-              text: bot.user.username
-            }
-          }
-        }) })
+        msg.delete().catch(err => { if(err) console.log(err) })
       }
     })
   }

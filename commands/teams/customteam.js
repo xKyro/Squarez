@@ -114,16 +114,7 @@ module.exports={
 
                     let property = messages.first().content.trim()
 
-                    messages.first().delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
-                      embed:{
-                        description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
-                        color: bot.config.embed_color,
-                        timestamp: Date.now(),
-                        footer:{
-                          text: bot.user.username
-                        }
-                      }
-                    }) })
+                    messages.first().delete().catch(err => { if(err) console.log(err) })
                     switch(property){
                         case "team.name":
                             beforeMsg = await message.channel.send(`> **Change team Name**`, {
@@ -140,16 +131,7 @@ module.exports={
 
                             propMessages = await msg.channel.awaitMessages(tFilter, {max: 1})
                             if(propMessages.first().content.trim().length < 4 || propMessages.first().content.trim().length > 20){
-                                beforeMsg.delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
-                                  embed:{
-                                    description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
-                                    color: bot.config.embed_color,
-                                    timestamp: Date.now(),
-                                    footer:{
-                                      text: bot.user.username
-                                    }
-                                  }
-                                }) })
+                                beforeMsg.delete().catch(err => { if(err) console.log(err) })
                                 message.channel.send(`> **Oops!**`, {
                                     embed:{
                                         description: `${bot.db.messages.err}\n> \`Your team name is not in the range 4 - 20 characters\``,
@@ -160,16 +142,7 @@ module.exports={
                                 }).then(msg => { msg.delete({timeout: 5000}) })
                             }else{
                                 team.info.teamName = propMessages.first().content.trim()
-                                beforeMsg.delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
-                                  embed:{
-                                    description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
-                                    color: bot.config.embed_color,
-                                    timestamp: Date.now(),
-                                    footer:{
-                                      text: bot.user.username
-                                    }
-                                  }
-                                }) })
+                                beforeMsg.delete().catch(err => { if(err) console.log(err) })
                                 message.channel.send(`> **Done!**`, {
                                     embed:{
                                         description: `Your team name has been successfully changed to **${team.info.teamName}**`,
@@ -179,16 +152,7 @@ module.exports={
                                     },
                                 }).then(msg => { msg.delete({timeout: 5000}) })
                             }
-                            propMessages.first().delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
-                              embed:{
-                                description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
-                                color: bot.config.embed_color,
-                                timestamp: Date.now(),
-                                footer:{
-                                  text: bot.user.username
-                                }
-                              }
-                            }) })
+                            propMessages.first().delete().catch(err => { if(err) console.log(err) })
                             break
                         case "team.desc":
                             beforeMsg = await message.channel.send(`> **Change team Description**`, {
@@ -205,16 +169,7 @@ module.exports={
 
                             propMessages = await msg.channel.awaitMessages(tFilter, {max: 1})
                             if(propMessages.first().content.trim().length < 4 || propMessages.first().content.trim().length > 512){
-                                beforeMsg.delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
-                                  embed:{
-                                    description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
-                                    color: bot.config.embed_color,
-                                    timestamp: Date.now(),
-                                    footer:{
-                                      text: bot.user.username
-                                    }
-                                  }
-                                }) })
+                                beforeMsg.delete().catch(err => { if(err) console.log(err) })
                                 message.channel.send(`> **Oops!**`, {
                                     embed:{
                                         description: `${bot.db.messages.err}\n> \`Your team description is not in the range 4 - 512 characters\``,
@@ -225,16 +180,7 @@ module.exports={
                                 }).then(msg => { msg.delete({timeout: 5000}) })
                             }else{
                                 team.info.teamDesc = propMessages.first().content.trim()
-                                beforeMsg.delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
-                                  embed:{
-                                    description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
-                                    color: bot.config.embed_color,
-                                    timestamp: Date.now(),
-                                    footer:{
-                                      text: bot.user.username
-                                    }
-                                  }
-                                }) })
+                                beforeMsg.delete().catch(err => { if(err) console.log(err) })
                                 message.channel.send(`> **Done!**`, {
                                     embed:{
                                         description: `Your team description has been successfully changed to **${team.info.teamDesc.slice(0, 24)}...**`,
@@ -244,16 +190,7 @@ module.exports={
                                     },
                                 }).then(msg => { msg.delete({timeout: 5000}) })
                             }
-                            propMessages.first().delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
-                              embed:{
-                                description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
-                                color: bot.config.embed_color,
-                                timestamp: Date.now(),
-                                footer:{
-                                  text: bot.user.username
-                                }
-                              }
-                            }) })
+                            propMessages.first().delete().catch(err => { if(err) console.log(err) })
                             break
                         case "team.icon":
                             beforeMsg = await message.channel.send(`> **Change team Icon**`, {
@@ -270,16 +207,7 @@ module.exports={
 
                             propMessages = await msg.channel.awaitMessages(tFilter, {max: 1})
                             if(!regExURL.test(propMessages.first().content.trim())){
-                                beforeMsg.delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
-                                  embed:{
-                                    description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
-                                    color: bot.config.embed_color,
-                                    timestamp: Date.now(),
-                                    footer:{
-                                      text: bot.user.username
-                                    }
-                                  }
-                                }) })
+                                beforeMsg.delete().catch(err => { if(err) console.log(err) })
                                 message.channel.send(`> **Oops!**`, {
                                     embed:{
                                         description: `${bot.db.messages.err}\n> \`Your team icon is not a valid URL\``,
@@ -290,16 +218,7 @@ module.exports={
                                 }).then(msg => { msg.delete({timeout: 5000}) })
                             }else{
                                 team.info.teamIcon = propMessages.first().content.trim()
-                                beforeMsg.delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
-                                  embed:{
-                                    description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
-                                    color: bot.config.embed_color,
-                                    timestamp: Date.now(),
-                                    footer:{
-                                      text: bot.user.username
-                                    }
-                                  }
-                                }) })
+                                beforeMsg.delete().catch(err => { if(err) console.log(err) })
                                 message.channel.send(`> **Done!**`, {
                                     embed:{
                                         description: `Your team icon has been successfully changed`,
@@ -309,16 +228,7 @@ module.exports={
                                     },
                                 }).then(msg => { msg.delete({timeout: 5000}) })
                             }
-                            propMessages.first().delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
-                              embed:{
-                                description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
-                                color: bot.config.embed_color,
-                                timestamp: Date.now(),
-                                footer:{
-                                  text: bot.user.username
-                                }
-                              }
-                            }) })
+                            propMessages.first().delete().catch(err => { if(err) console.log(err) })
                             break
                         case "team.banner":
                             if(!svProfile){ 
@@ -345,16 +255,7 @@ module.exports={
 
                               propMessages = await msg.channel.awaitMessages(tFilter, {max: 1})
                               if(!regExURL.test(propMessages.first().content.trim())){
-                                  beforeMsg.delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
-                                    embed:{
-                                      description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
-                                      color: bot.config.embed_color,
-                                      timestamp: Date.now(),
-                                      footer:{
-                                        text: bot.user.username
-                                      }
-                                    }
-                                  }) })
+                                  beforeMsg.delete().catch(err => { if(err) console.log(err) })
                                   message.channel.send(`> **Oops!**`, {
                                       embed:{
                                           description: `${bot.db.messages.err}\n> \`Your team banner is not a valid URL\``,
@@ -365,16 +266,7 @@ module.exports={
                                   }).then(msg => { msg.delete({timeout: 5000}) })
                               }else{
                                   team.info.teamBanner = propMessages.first().content.trim()
-                                  beforeMsg.delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
-                                    embed:{
-                                      description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
-                                      color: bot.config.embed_color,
-                                      timestamp: Date.now(),
-                                      footer:{
-                                        text: bot.user.username
-                                      }
-                                    }
-                                  }) })
+                                  beforeMsg.delete().catch(err => { if(err) console.log(err) })
                                   message.channel.send(`> **Done!**`, {
                                       embed:{
                                           description: `Your team banner has been successfully changed`,
@@ -384,16 +276,7 @@ module.exports={
                                       },
                                   }).then(msg => { msg.delete({timeout: 5000}) })
                               }
-                              propMessages.first().delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
-                                embed:{
-                                  description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
-                                  color: bot.config.embed_color,
-                                  timestamp: Date.now(),
-                                  footer:{
-                                    text: bot.user.username
-                                  }
-                                }
-                              }) })
+                              propMessages.first().delete().catch(err => { if(err) console.log(err) })
                             }
                             break
                         case "team.requiredLvl":
@@ -411,16 +294,7 @@ module.exports={
 
                             propMessages = await msg.channel.awaitMessages(tFilter, {max: 1})
                             if(isNaN(propMessages.first().content.trim())){
-                                beforeMsg.delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
-                                  embed:{
-                                    description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
-                                    color: bot.config.embed_color,
-                                    timestamp: Date.now(),
-                                    footer:{
-                                      text: bot.user.username
-                                    }
-                                  }
-                                }) })
+                                beforeMsg.delete().catch(err => { if(err) console.log(err) })
                                 message.channel.send(`> **Oops!**`, {
                                     embed:{
                                         description: `${bot.db.messages.err}\n> \`Your team required level is not a number\``,
@@ -431,16 +305,7 @@ module.exports={
                                 }).then(msg => { msg.delete({timeout: 5000}) })
                             }else{
                                 team.info.teamReqLvl = propMessages.first().content.trim()
-                                beforeMsg.delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
-                                  embed:{
-                                    description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
-                                    color: bot.config.embed_color,
-                                    timestamp: Date.now(),
-                                    footer:{
-                                      text: bot.user.username
-                                    }
-                                  }
-                                }) })
+                                beforeMsg.delete().catch(err => { if(err) console.log(err) })
                                 message.channel.send(`> **Done!**`, {
                                     embed:{
                                         description: `Your team required level to join has been successfully changed to **${propMessages.first().content.trim()}**`,
@@ -450,16 +315,7 @@ module.exports={
                                     },
                                 }).then(msg => { msg.delete({timeout: 5000}) })
                             }
-                            propMessages.first().delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
-                              embed:{
-                                description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
-                                color: bot.config.embed_color,
-                                timestamp: Date.now(),
-                                footer:{
-                                  text: bot.user.username
-                                }
-                              }
-                            }) })
+                            propMessages.first().delete().catch(err => { if(err) console.log(err) })
                             break
                         case "team.invite":
                             if(!svProfile){
@@ -486,16 +342,7 @@ module.exports={
 
                                 propMessages = await msg.channel.awaitMessages(tFilter, {max: 1})
                                 if(propMessages.first().content.trim().length < 4 || propMessages.first().content.trim().length > 12){
-                                    beforeMsg.delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
-                                      embed:{
-                                        description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
-                                        color: bot.config.embed_color,
-                                        timestamp: Date.now(),
-                                        footer:{
-                                          text: bot.user.username
-                                        }
-                                      }
-                                    }) })
+                                    beforeMsg.delete().catch(err => { if(err) console.log(err) })
                                     message.channel.send(`> **Oops!**`, {
                                         embed:{
                                             description: `${bot.db.messages.err}\n> \`Your team invite is not in the range 4 - 12 characters\``,
@@ -506,16 +353,7 @@ module.exports={
                                     }).then(msg => { msg.delete({timeout: 5000}) })
                                 }else{
                                     team.team.teamCode = "team/" + propMessages.first().content.trim()
-                                    beforeMsg.delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
-                                      embed:{
-                                        description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
-                                        color: bot.config.embed_color,
-                                        timestamp: Date.now(),
-                                        footer:{
-                                          text: bot.user.username
-                                        }
-                                      }
-                                    }) })
+                                    beforeMsg.delete().catch(err => { if(err) console.log(err) })
                                     message.channel.send(`> **Done!**`, {
                                         embed:{
                                             description: `Your team invite has been successfully changed to **${team.team.teamCode}**`,
@@ -525,16 +363,7 @@ module.exports={
                                         },
                                     }).then(msg => { msg.delete({timeout: 5000}) })
                                 }
-                                propMessages.first().delete().catch(err => { if(err) message.channel.send(`> **Oops!**`, {
-                                  embed:{
-                                    description: `${bot.db.messages.err}\n> \`I don't have the permission to delete messages, cannot afford the command\``,
-                                    color: bot.config.embed_color,
-                                    timestamp: Date.now(),
-                                    footer:{
-                                      text: bot.user.username
-                                    }
-                                  }
-                                }) })
+                                propMessages.first().delete().catch(err => { if(err) console.log(err) })
                             }
                             
                             break
