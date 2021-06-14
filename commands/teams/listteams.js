@@ -5,7 +5,7 @@ const ms = require("ms")
 module.exports={
     name: "listteams",
     category: "teams",
-    description: "If you don't want to have your team anymore, you can disband it",
+    description: "You can see all the available teams to join them",
     aliases: ["liteam", "lit"],
     isBeta: true,
     run: async(bot, message, args) => {

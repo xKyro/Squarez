@@ -32,7 +32,7 @@ module.exports={
         .addFields(
             {name: `Team`, value: `> **Team Name:** ${team.info.teamName}\n> **Team Description:** ${team.info.teamDesc ? team.info.teamDesc : `N/A`}\n> **Team Members:** ${team.team.teamMembers.length}\n> **Team Invite:** ${team.team.teamCode}`},
             {name: `Team Details`, value: `> **Team XP:** ${team.leveling.xp} \`(${Math.floor((team.leveling.xp / team.leveling.rxp) * 100)}%)\`\n> **Team required XP:** ${team.leveling.rxp}\n> **Team Level:** ${team.leveling.lvl}\n\n> **Total team Badges:** ${teamBadges.map(bg => bg).join(" ")}`},
-            {name: `Team Challenges`, value: `> **Remaining Challenges:** ${team.team.teamChallenges.filter(ch => ch.completed === false).length}\n> **Challenges Completed**: ${team.team.teamChallenges.filter(ch => ch.completed === true).length}\n\n> **Challenges:**\n${team.team.teamChallenges.length > 0 ? team.team.teamChallenges.map((cha, i) => { return `> **#${i+1}.** ${cha.name}: \`${cha.completed ? `Completed` : `Not completed`}\`` }).join("\n") : `No pending challenges for your team`}`}
+            {name: `Team Challenges`, value: `> **Remaining Challenges:** ${team.team.teamChallenges.filter(ch => ch.completed === false).length}\n> **Challenges Completed**: ${team.team.teamChallenges.filter(ch => ch.completed === true).length}\n\n> **Challenges:**\n\`\`\`${team.team.teamChallenges.length > 0 ? team.team.teamChallenges.map((cha, i) => { return `#${i+1}. ${cha.name}: ${cha.completed ? `Completed` : `Not completed`}` }).join("\n") : `No pending challenges for your team`}\`\`\``}
         )
         .setColor(bot.config.embed_color)
         .setTimestamp(Date.now())

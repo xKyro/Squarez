@@ -14,7 +14,7 @@ module.exports={
                 fields:[
                     {name: `Invite me to your Server!`, value: `Welp, click this link to invite me to your server\nI would like it\n\n**[Click here to invite Squarez to your Server](https://discord.com/oauth2/authorize?client_id=821765478618890241&scope=bot&permissions=8)**`},
                     {name: `Vote for Squarez! (Me)`, value: `If you really, but __really__, **really** like Squarez, you can help us to improve\nGiving me your upvote and feedback, will help me a ton`},
-                    {name: `Join my support Server!`, value: `If you're looking for advanced support, this is our Support Server\nBut, the server is not done yet. I'll let you know when the server is done and ready`},
+                    {name: `Join my support Server!`, value: `If you're looking for advanced support, this is our Support Server\nClick this link to join: **[CLick for support Server](https://discord.gg/nYcwJhWSVV)**`},
                     {name: `** **`, value: `**Thanks for this. I really appreciate it**`}
                 ],
                 color: bot.config.embed_color,
