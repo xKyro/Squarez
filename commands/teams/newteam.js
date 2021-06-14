@@ -7,6 +7,7 @@ module.exports={
     category: "teams",
     description: "Want to make your own team of square-players? Let's go ahead",
     aliases: ["nteam", "nt"],
+    cooldown: { time: 20, type: "s" },
     isBeta: true,
     run: async(bot, message, args) => {
 

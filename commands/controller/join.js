@@ -6,6 +6,7 @@ module.exports={
   category: "controller",
   description: "Want to play with others or friends? Join their game",
   aliases: [],
+  cooldown: { time: 5, type: "s" },
   isBeta: false,
   run: async(bot, message, args) =>{
     const cross = bot.guilds.cache.get("836264176149725226").emojis.cache.find(em => em.name.includes("cross"))

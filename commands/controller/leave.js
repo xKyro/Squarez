@@ -6,6 +6,7 @@ module.exports={
   category: "controller",
   description: "Leave the game, if you're done for now",
   aliases: [],
+  cooldown: { time: 5, type: "s" },
   isBeta: false,
   run: async(bot, message, args) =>{
     

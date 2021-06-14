@@ -7,6 +7,7 @@ module.exports={
     category: "teams",
     description: "Join to a new team that you were invited",
     aliases: ["jteam", "jt"],
+    cooldown: { time: 20, type: "s" },
     isBeta: true,
     run: async(bot, message, args) => {
 

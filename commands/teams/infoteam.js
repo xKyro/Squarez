@@ -7,6 +7,7 @@ module.exports={
     category: "teams",
     description: "See the progress and information about your team",
     aliases: ["iteam", "it"],
+    cooldown: { time: 20, type: "s" },
     isBeta: true,
     run: async(bot, message, args) => {
         const team = bot.db.teams.find(team => team.team.teamMembers.find(member => member.userID === message.author.id))

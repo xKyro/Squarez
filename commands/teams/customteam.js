@@ -7,8 +7,19 @@ module.exports={
     category: "teams",
     description: "Want to customize your team and make it look better? Well you can do it right here",
     aliases: ["cteam", "ct"],
+    cooldown: { time: 45, type: "s" },
     isBeta: true,
     run: async(bot, message, args) => {
+      
+        if(message.guild.id !== "836264176149725226") return message.channel.send(`> **Maintenance**`, {
+          embed:{
+                description: `${bot.db.messages.maint}`,
+                color: bot.config.embed_color,
+                timestamp: Date.now(),
+                footer: { text: `${bot.user.username}`}
+            }
+        })
+
         const modifyButton = new MessageButton()
         .setStyle("blurple")
         .setLabel("Modify")
@@ -104,7 +115,7 @@ module.exports={
                 while(custom.modifying === true){
 
                     let tFilter = (m) => m.author.id === message.author.id
-                    const messages = await msg.channel.awaitMessages(tFilter, {max: 1})
+                    const messages = await msg.channel.createMessageCollector(tFilter, {max: 1})
 
                     if(custom.modifying === false) return
 
@@ -129,7 +140,7 @@ module.exports={
                                 },
                             })
 
-                            propMessages = await msg.channel.awaitMessages(tFilter, {max: 1})
+                            propMessages = await msg.channel.createMessageCollector(tFilter, {max: 1})
                             if(propMessages.first().content.trim().length < 4 || propMessages.first().content.trim().length > 20){
                                 beforeMsg.delete().catch(err => { if(err) console.log(err) })
                                 message.channel.send(`> **Oops!**`, {
@@ -167,7 +178,7 @@ module.exports={
                                 },
                             })
 
-                            propMessages = await msg.channel.awaitMessages(tFilter, {max: 1})
+                            propMessages = await msg.channel.createMessageCollector(tFilter, {max: 1})
                             if(propMessages.first().content.trim().length < 4 || propMessages.first().content.trim().length > 512){
                                 beforeMsg.delete().catch(err => { if(err) console.log(err) })
                                 message.channel.send(`> **Oops!**`, {
@@ -205,7 +216,7 @@ module.exports={
                                 },
                             })
 
-                            propMessages = await msg.channel.awaitMessages(tFilter, {max: 1})
+                            propMessages = await msg.channel.createMessageCollector(tFilter, {max: 1})
                             if(!regExURL.test(propMessages.first().content.trim())){
                                 beforeMsg.delete().catch(err => { if(err) console.log(err) })
                                 message.channel.send(`> **Oops!**`, {
@@ -253,7 +264,7 @@ module.exports={
                                   },
                               })
 
-                              propMessages = await msg.channel.awaitMessages(tFilter, {max: 1})
+                              propMessages = await msg.channel.createMessageCollector(tFilter, {max: 1})
                               if(!regExURL.test(propMessages.first().content.trim())){
                                   beforeMsg.delete().catch(err => { if(err) console.log(err) })
                                   message.channel.send(`> **Oops!**`, {
@@ -292,7 +303,7 @@ module.exports={
                                 },
                             })
 
-                            propMessages = await msg.channel.awaitMessages(tFilter, {max: 1})
+                            propMessages = await msg.channel.createMessageCollector(tFilter, {max: 1})
                             if(isNaN(propMessages.first().content.trim())){
                                 beforeMsg.delete().catch(err => { if(err) console.log(err) })
                                 message.channel.send(`> **Oops!**`, {
@@ -340,7 +351,7 @@ module.exports={
                                     },
                                 })
 
-                                propMessages = await msg.channel.awaitMessages(tFilter, {max: 1})
+                                propMessages = await msg.channel.createMessageCollector(tFilter, {max: 1})
                                 if(propMessages.first().content.trim().length < 4 || propMessages.first().content.trim().length > 12){
                                     beforeMsg.delete().catch(err => { if(err) console.log(err) })
                                     message.channel.send(`> **Oops!**`, {

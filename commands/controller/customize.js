@@ -6,6 +6,7 @@ module.exports={
   category: "controller",
   description: "Bring your crazy ideas! Customize your game to make it more fun",
   aliases: ["custom"],
+  cooldown: { time: 5, type: "s" },
   isBeta: false,
   run: async(bot, message, args) =>{
     

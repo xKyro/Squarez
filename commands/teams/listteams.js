@@ -7,6 +7,7 @@ module.exports={
     category: "teams",
     description: "You can see all the available teams to join them",
     aliases: ["liteam", "lit"],
+    cooldown: { time: 20, type: "s" },
     isBeta: true,
     run: async(bot, message, args) => {
       let sortType = args[0]

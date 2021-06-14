@@ -7,6 +7,7 @@ module.exports={
     category: "teams",
     description: "If you don't want to have your team anymore, you can disband it",
     aliases: ["dteam", "dt"],
+    cooldown: { time: 20, type: "s" },
     isBeta: true,
     run: async(bot, message, args) => {
         const team = bot.db.teams.find(team => team.team.teamOwner === message.author.id)

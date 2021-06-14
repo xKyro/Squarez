@@ -5,6 +5,7 @@ module.exports={
     category: "information",
     description: "Do you like the bot? Great! Invite him with this command (pss, also, you can give us a rating, that would help me a lot)",
     aliases: ["inv"],
+    cooldown: { time: 5, type: "s" },
     isBeta: false,
     run: async(bot, message, args) => {
 

@@ -6,6 +6,7 @@ module.exports={
   category: "information",
   description: "The main help center",
   aliases: ["help-me"],
+  cooldown: { time: 5, type: "s" },
   isBeta: false,
   run: async(bot, message, args) =>{
 

@@ -5,6 +5,7 @@ module.exports={
     category: "controller",
     description: "You can see the avaible games",
     aliases: ["gamelist", "games"],
+    cooldown: { time: 5, type: "s" },
     isBeta: false,
     run: async(bot, message, args) => {
 

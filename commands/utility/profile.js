@@ -5,6 +5,7 @@ module.exports={
   category: "utility",
   description: "See other players information using this",
   aliases: [],
+  cooldown: { time: 5, type: "s" },
   isBeta: false,
   run: async(bot, message, args) =>{
     

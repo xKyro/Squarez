@@ -5,6 +5,7 @@ module.exports={
   category: "controller",
   description: "Ready? Create your first game and invite your friends!",
   aliases: [],
+  cooldown: { time: 5, type: "s" },
   isBeta: false,
   run: async(bot, message, args) =>{
     

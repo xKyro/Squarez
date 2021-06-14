@@ -5,6 +5,7 @@ module.exports={
   category: "information",
   description: "This is the tutorial. Come here to understand the basics of Squarez",
   aliases: ["tuto"],
+  cooldown: { time: 5, type: "s" },
   isBeta: false,
   run: async(bot, message, args) =>{
     

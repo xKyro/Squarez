@@ -20,6 +20,7 @@ monitor.on('error', (error) => console.log(error));
 const Discord = require("discord.js")
 const { MessageButton, MessageActionRow } = require("discord-buttons")
 const { Collection, Client, MessageEmbed } = require("discord.js")
+const cdUtil = require("./util/cooldowns.js")
 const ms = require("ms")
 const fs = require("fs")
 
@@ -31,6 +32,7 @@ require("discord-buttons")(bot)
 
 bot.games = new Map()
 
+bot.cooldowns = new Collection()
 bot.commands = new Collection()
 bot.aliases = new Collection()
 bot.categories = fs.readdirSync("./commands/");
@@ -44,7 +46,7 @@ bot.db = require("./base/db.json")
 bot.login(process.env.token).catch(err => { console.log(err) })
 bot.on("ready", () =>{
   console.log(`Done!\n${bot.user.tag} is now ready to bring the fun!`)
-  bot.user.setActivity(`Turning up the heat! | ${bot.config.version}`, {type: "LISTENING"})
+  bot.user.setActivity(`Connecting.. | ${bot.config.version}`, {type: "LISTENING"})
 
   let replace_phrases_guildcnt = [
     { text: `good`, min: 0, max: 25 },
@@ -57,11 +59,11 @@ bot.on("ready", () =>{
 
   setInterval(function(){
     let status = [
-      `Participate in a fun event!`,
-      `The requests of ${bot.users.cache.size} users! (or not..)`,
-      `${bot.guilds.cache.size} amazing servers, that's ${replace_phrases_guildcnt.find(r => bot.guilds.cache.size >= r.min && bot.guilds.cache.size < r.max) ? replace_phrases_guildcnt.find(r => bot.guilds.cache.size >= r.min && bot.guilds.cache.size < r.max).text : replace_phrases_guildcnt[replace_phrases_guildcnt.length-1].text}`,
-      `let's turn up the fun`,
-      `go on! Try Squarez`
+      `participate in the monthly event`,
+      `${bot.users.cache.size} users`,
+      `${bot.guilds.cache.size} servers, that's ${replace_phrases_guildcnt.find(r => bot.guilds.cache.size >= r.min && bot.guilds.cache.size < r.max) ? replace_phrases_guildcnt.find(r => bot.guilds.cache.size >= r.min && bot.guilds.cache.size < r.max).text : replace_phrases_guildcnt[replace_phrases_guildcnt.length-1].text}`,
+      `bring the vibe to Squarez`,
+      `give it a go`
     ]
 
     bot.user.setActivity(status[Math.floor(Math.random() * status.length)] + ` | ${bot.config.version}`, {type: "LISTENING"})
@@ -276,7 +278,18 @@ bot.on("message", async(message) =>{
   let command = bot.commands.get(cmd)
   if(!command) command = bot.commands.get(bot.aliases.get(cmd))
   if(!command) return message.channel.send(`> **Unknown Command**`, nfc_embed)
-  if(command) command.run(bot, message, args)
+  if(cdUtil.getCooldown(message.member, command, bot)) return message.channel.send(`> **Cooldown..**`, {
+    embed:{
+      description: `Sorry bud!\nYou must wait another **${cdUtil.getCooldown(message.member, command, bot)}** before using the command \`${command.name}\``,
+      color: bot.config.embed_color,
+      timestamp: Date.now(),
+      footer: { text: bot.user.username }
+    }
+  }).then(m => { m.delete({timeout:5000}) })
+  if(command){
+    command.run(bot, message, args)
+    cdUtil.addCooldown(message.member, command, bot)
+  }
 })
 bot.on("click", (button) =>{
 

@@ -6,6 +6,7 @@ module.exports={
   category: "utility",
   description: "Feeling competitive? You can see who is the best player here!",
   aliases: ["ranking", "leaders", "top"],
+  cooldown: { time: 5, type: "s" },
   isBeta: false,
   run: async(bot, message, args) =>{
 

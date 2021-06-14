@@ -7,6 +7,7 @@ module.exports={
     category: "teams",
     description: "Want to make your own team or join other? Leave your actual team and search another",
     aliases: ["lteam", "lt"],
+    cooldown: { time: 20, type: "s" },
     isBeta: true,
     run: async(bot, message, args) => {
         const team = bot.db.teams.find(team => team.team.teamMembers.find(member => member.userID === message.author.id))

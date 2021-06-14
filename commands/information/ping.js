@@ -5,6 +5,7 @@ module.exports={
     category: "information",
     description: "See the latency between squarez and the Discord API",
     aliases: ["pong"],
+    cooldown: { time: 5, type: "s" },
     isBeta: false,
     run: async(bot, message, args) => {
 
