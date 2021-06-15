@@ -22,6 +22,7 @@ module.exports={
             team = {
                 teamCode: null,
                 teamOwner: null,
+                teamBans: [],
                 teamMembers: [],
                 teamChallenges: []
             }
@@ -51,7 +52,7 @@ module.exports={
                     let challenges = []
                     let lastLvl = 2
                     for(let i = 0; i < 10; i++){
-                        let diff = Math.floor(Math.random() * 4)
+                        let diff = Math.floor(Math.random() * 4) + 1
                         challenges.push(
                             {
                                 "name": `Raise your team to the level ${diff + lastLvl}`,

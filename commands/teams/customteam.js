@@ -12,14 +12,14 @@ module.exports={
     isBeta: true,
     run: async(bot, message, args) => {
       
-        if(message.guild.id !== "836264176149725226") return message.channel.send(`> **Maintenance**`, {
-          embed:{
-                description: `${bot.db.messages.maint}`,
-                color: bot.config.embed_color,
-                timestamp: Date.now(),
-                footer: { text: `${bot.user.username}`}
-            }
-        })
+        // if(message.guild.id !== "836264176149725226") return message.channel.send(`> **Maintenance**`, {
+        //   embed:{
+        //         description: `${bot.db.messages.maint}`,
+        //         color: bot.config.embed_color,
+        //         timestamp: Date.now(),
+        //         footer: { text: `${bot.user.username}`}
+        //     }
+        // })
 
         const modifyButton = new MessageButton()
         .setStyle("blurple")

@@ -65,6 +65,15 @@ module.exports={
             }
         })
 
+        if(team.team.teamBans.includes(message.author.id)) return message.channel.send(`> **Oops!**`, {
+            embed:{
+                description: `${bot.db.messages.err}\n> \`You're banned from "${team.info.teamName}"\``,
+                color: bot.config.embed_color,
+                timestamp: Date.now(),
+                footer: { text: `${bot.user.username}`}
+            }
+        })
+
         if(data.leveling.lvl < team.info.teamReqLvl) return message.channel.send(`> **Oops!**`, {
             embed:{
                 description: `${bot.db.messages.err}\n> \`To join the team "${team.info.teamName}" you must be level ${team.info.teamReqLvl} or higher\``,
