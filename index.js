@@ -71,7 +71,7 @@ bot.on("ready", () =>{
 })
 bot.on("message", async(message) =>{
 
-  // if(message.guild.id !== "836264176149725226") return
+  // if(message.guild.id === "836264176149725226") return
 
   let prefix = bot.config.prefix
   const team = bot.db.teams.find(team => team.team.teamMembers.find(member => member.userID === message.author.id))

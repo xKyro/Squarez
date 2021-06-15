@@ -2,6 +2,7 @@ const {MessageEmbed, MessageAttachment, Util} = require("discord.js")
 const { MessageButton, MessageActionRow } = require("discord-buttons")
 const fs = require("fs")
 const ms = require("ms")
+const { URLSearchParams } = require("url")
 module.exports={
     name: "customteam",
     category: "teams",
@@ -84,15 +85,18 @@ module.exports={
         const msg = await message.channel.send(`> **Customize Team**\n> Team: **${team.info.teamName}**`, base)
         let filter = (button) => button.clicker.user.id === message.author.id
         const collector = await msg.createButtonCollector(filter)
+        let msgCollector = null
         collector.on("collect", async(button) =>{
             button.defer()
 
             if(button.id === "close-button"){
                 custom.modifying = false
+                await msgCollector.stop()
                 msg.delete()
             }
             if(button.id === "go-back-button"){
                 custom.modifying = false
+                await msgCollector.stop()
                 msg.edit(`> **Customize Team**\n> Team: **${team.info.teamName}**`, base)
             }
             if(button.id === "modify-team-button"){
@@ -111,287 +115,212 @@ module.exports={
                     },
                     component: goBackButton
                 })
+                
 
-                while(custom.modifying === true){
+                let tFilter = (m) => m.author.id === message.author.id
+                msgCollector = await msg.channel.createMessageCollector(tFilter)
 
-                    let tFilter = (m) => m.author.id === message.author.id
-                    const messages = await msg.channel.createMessageCollector(tFilter, {max: 1})
+                let inteMsg
 
-                    if(custom.modifying === false) return
-
-                    //Collector
-                    let propMessages
-                    let beforeMsg
-
-                    let property = messages.first().content.trim()
-
-                    messages.first().delete().catch(err => { if(err) console.log(err) })
-                    switch(property){
+                //Collector
+                msgCollector.on("collect", async(message) =>{
+                    if(!custom.modifying){
+                        msgCollector.stop()
+                        return
+                    }
+                    await message.delete().catch(err => { if(err) console.log(err) })
+                    switch(message.content){
                         case "team.name":
-                            beforeMsg = await message.channel.send(`> **Change team Name**`, {
+                            inteMsg = await message.channel.send(`> **Customize Team**\n> Team: **${team.info.teamName}**`, {
                                 embed:{
-                                    description: `Enter a new team name, the team name must be **4 - 20** characters in length`,
-                                    fields:[
-                                        {name: `Current Name`, value: `${team.info.teamName}`}
-                                    ],
+                                    description: `**Edit team name**\n__Provide the new name for your team__\n\n**Limitation**\n> The name of the team must be **4 - 20** characters in length`,
                                     color: bot.config.embed_color,
                                     timestamp: Date.now(),
                                     footer: { text: `${bot.user.username}`}
-                                },
+                                }
                             })
-
-                            propMessages = await msg.channel.createMessageCollector(tFilter, {max: 1})
-                            if(propMessages.first().content.trim().length < 4 || propMessages.first().content.trim().length > 20){
-                                beforeMsg.delete().catch(err => { if(err) console.log(err) })
-                                message.channel.send(`> **Oops!**`, {
+                            await inteMsg.channel.awaitMessages(tFilter, {max: 1}).then(async coll =>{
+                                await inteMsg.delete()
+                                if(coll.first().content.length < 4 || coll.first().content.length > 20) return message.channel.send(`> **Oops!**`, {
                                     embed:{
-                                        description: `${bot.db.messages.err}\n> \`Your team name is not in the range 4 - 20 characters\``,
+                                        description: `${bot.db.messages.err}\n> \`Your provided team name is not in the range 4 - 20 characters\``,
                                         color: bot.config.embed_color,
                                         timestamp: Date.now(),
                                         footer: { text: `${bot.user.username}`}
-                                    },
-                                }).then(msg => { msg.delete({timeout: 5000}) })
-                            }else{
-                                team.info.teamName = propMessages.first().content.trim()
-                                beforeMsg.delete().catch(err => { if(err) console.log(err) })
+                                    }
+                                }).then(m => { m.delete({timeout:5000}) })
+
+                                team.info.teamName = coll.first().content.trim()
                                 message.channel.send(`> **Done!**`, {
                                     embed:{
-                                        description: `Your team name has been successfully changed to **${team.info.teamName}**`,
+                                        description: `Your team name has been updated to **${team.info.teamName}**\n*Remember to save this modification when you're done*`,
                                         color: bot.config.embed_color,
                                         timestamp: Date.now(),
                                         footer: { text: `${bot.user.username}`}
-                                    },
-                                }).then(msg => { msg.delete({timeout: 5000}) })
-                            }
-                            propMessages.first().delete().catch(err => { if(err) console.log(err) })
+                                    }
+                                }).then(m => { m.delete({timeout:5000}) })
+                            })
                             break
                         case "team.desc":
-                            beforeMsg = await message.channel.send(`> **Change team Description**`, {
+                            inteMsg = await message.channel.send(`> **Customize Team**\n> Team: **${team.info.teamName}**`, {
                                 embed:{
-                                    description: `Enter a new team description, the team description must be **4 - 512** characters in length`,
-                                    fields:[
-                                        {name: `Current Description`, value: `${team.info.teamDesc ? team.info.teamDesc : `No description`}`}
-                                    ],
+                                    description: `**Edit team description**\n__Provide the new description for your team__\n\n**Limitation**\n> The description of the team must be **4 - 512** characters in length`,
                                     color: bot.config.embed_color,
                                     timestamp: Date.now(),
                                     footer: { text: `${bot.user.username}`}
-                                },
+                                }
                             })
-
-                            propMessages = await msg.channel.createMessageCollector(tFilter, {max: 1})
-                            if(propMessages.first().content.trim().length < 4 || propMessages.first().content.trim().length > 512){
-                                beforeMsg.delete().catch(err => { if(err) console.log(err) })
-                                message.channel.send(`> **Oops!**`, {
+                            await inteMsg.channel.awaitMessages(tFilter, {max: 1}).then(async coll =>{
+                                await inteMsg.delete()
+                                if(coll.first().content.length < 4 || coll.first().content.length > 512) return message.channel.send(`> **Oops!**`, {
                                     embed:{
-                                        description: `${bot.db.messages.err}\n> \`Your team description is not in the range 4 - 512 characters\``,
+                                        description: `${bot.db.messages.err}\n> \`Your provided team description is not in the range 4 - 512 characters\``,
                                         color: bot.config.embed_color,
                                         timestamp: Date.now(),
                                         footer: { text: `${bot.user.username}`}
-                                    },
-                                }).then(msg => { msg.delete({timeout: 5000}) })
-                            }else{
-                                team.info.teamDesc = propMessages.first().content.trim()
-                                beforeMsg.delete().catch(err => { if(err) console.log(err) })
+                                    }
+                                }).then(m => { m.delete({timeout:5000}) })
+
+                                team.info.teamDesc = coll.first().content.trim()
                                 message.channel.send(`> **Done!**`, {
                                     embed:{
-                                        description: `Your team description has been successfully changed to **${team.info.teamDesc.slice(0, 24)}...**`,
+                                        description: `Your team description has been updated to **${team.info.teamDesc.slice(0, 20)}..**\n*Remember to save this modification when you're done*`,
                                         color: bot.config.embed_color,
                                         timestamp: Date.now(),
                                         footer: { text: `${bot.user.username}`}
-                                    },
-                                }).then(msg => { msg.delete({timeout: 5000}) })
-                            }
-                            propMessages.first().delete().catch(err => { if(err) console.log(err) })
+                                    }
+                                }).then(m => { m.delete({timeout:5000}) })
+                            })
                             break
                         case "team.icon":
-                            beforeMsg = await message.channel.send(`> **Change team Icon**`, {
+                            inteMsg = await message.channel.send(`> **Customize Team**\n> Team: **${team.info.teamName}**`, {
                                 embed:{
-                                    description: `Enter a new team icon, the team icon must be a **valid** URL with an image`,
-                                    fields:[
-                                        {name: `Current Icon`, value: `Cannot show team icon`}
-                                    ],
+                                    description: `**Edit team icon**\n__Provide the new icon for your team__\n\n**Limitation**\n> The team icon must be a **valid** URL that contains an image`,
                                     color: bot.config.embed_color,
                                     timestamp: Date.now(),
                                     footer: { text: `${bot.user.username}`}
-                                },
+                                }
                             })
-
-                            propMessages = await msg.channel.createMessageCollector(tFilter, {max: 1})
-                            if(!regExURL.test(propMessages.first().content.trim())){
-                                beforeMsg.delete().catch(err => { if(err) console.log(err) })
-                                message.channel.send(`> **Oops!**`, {
+                            await inteMsg.channel.awaitMessages(tFilter, {max: 1}).then(async coll =>{
+                                await inteMsg.delete()
+                                if(!regExURL.test(coll.first().content)) return message.channel.send(`> **Oops!**`, {
                                     embed:{
-                                        description: `${bot.db.messages.err}\n> \`Your team icon is not a valid URL\``,
+                                        description: `${bot.db.messages.err}\n> \`Your provided team icon is not a valid URL with an image\``,
                                         color: bot.config.embed_color,
                                         timestamp: Date.now(),
                                         footer: { text: `${bot.user.username}`}
-                                    },
-                                }).then(msg => { msg.delete({timeout: 5000}) })
-                            }else{
-                                team.info.teamIcon = propMessages.first().content.trim()
-                                beforeMsg.delete().catch(err => { if(err) console.log(err) })
+                                    }
+                                }).then(m => { m.delete({timeout:5000}) })
+
+                                team.info.teamIcon = coll.first().content.trim()
                                 message.channel.send(`> **Done!**`, {
                                     embed:{
-                                        description: `Your team icon has been successfully changed`,
+                                        description: `Your team icon has been updated to **${team.info.teamIcon.slice(0, 20)}..**\n*Remember to save this modification when you're done*`,
                                         color: bot.config.embed_color,
                                         timestamp: Date.now(),
                                         footer: { text: `${bot.user.username}`}
-                                    },
-                                }).then(msg => { msg.delete({timeout: 5000}) })
-                            }
-                            propMessages.first().delete().catch(err => { if(err) console.log(err) })
+                                    }
+                                }).then(m => { m.delete({timeout:5000}) })
+                            })
                             break
                         case "team.banner":
-                            if(!svProfile){ 
-                                message.channel.send(`> **Oops!**`, {
-                                    embed:{
-                                        description: `${bot.db.messages.err}\n> \`You cannot edit your team banner without the role Supporter (Squarez official server)\``,
-                                        color: bot.config.embed_color,
-                                        timestamp: Date.now(),
-                                        footer: { text: `${bot.user.username}`}
-                                    },
-                                }).then(msg => { msg.delete({timeout: 5000}) })
-                            }else{
-                              beforeMsg = await message.channel.send(`> **Change team Banner**`, {
-                                  embed:{
-                                      description: `Enter a new team banner, the team banner must be a **valid** URL with an image`,
-                                      fields:[
-                                          {name: `Current Banner`, value: `Cannot show team banner`}
-                                      ],
-                                      color: bot.config.embed_color,
-                                      timestamp: Date.now(),
-                                      footer: { text: `${bot.user.username}`}
-                                  },
-                              })
-
-                              propMessages = await msg.channel.createMessageCollector(tFilter, {max: 1})
-                              if(!regExURL.test(propMessages.first().content.trim())){
-                                  beforeMsg.delete().catch(err => { if(err) console.log(err) })
-                                  message.channel.send(`> **Oops!**`, {
-                                      embed:{
-                                          description: `${bot.db.messages.err}\n> \`Your team banner is not a valid URL\``,
-                                          color: bot.config.embed_color,
-                                          timestamp: Date.now(),
-                                          footer: { text: `${bot.user.username}`}
-                                      },
-                                  }).then(msg => { msg.delete({timeout: 5000}) })
-                              }else{
-                                  team.info.teamBanner = propMessages.first().content.trim()
-                                  beforeMsg.delete().catch(err => { if(err) console.log(err) })
-                                  message.channel.send(`> **Done!**`, {
-                                      embed:{
-                                          description: `Your team banner has been successfully changed`,
-                                          color: bot.config.embed_color,
-                                          timestamp: Date.now(),
-                                          footer: { text: `${bot.user.username}`}
-                                      },
-                                  }).then(msg => { msg.delete({timeout: 5000}) })
-                              }
-                              propMessages.first().delete().catch(err => { if(err) console.log(err) })
-                            }
-                            break
-                        case "team.requiredLvl":
-                            beforeMsg = await message.channel.send(`> **Change team Required Level**`, {
+                            inteMsg = await message.channel.send(`> **Customize Team**\n> Team: **${team.info.teamName}**`, {
                                 embed:{
-                                    description: `Enter a new team required level to join`,
-                                    fields:[
-                                        {name: `Current Required Level`, value: `${team.info.teamReqLvl ? team.info.teamReqLvl : `No level`}`}
-                                    ],
+                                    description: `**Edit team banner**\n__Provide the new banner for your team__\n\n**Limitation**\n> The team icon must be a **valid** URL that contains an image`,
                                     color: bot.config.embed_color,
                                     timestamp: Date.now(),
                                     footer: { text: `${bot.user.username}`}
-                                },
+                                }
                             })
-
-                            propMessages = await msg.channel.createMessageCollector(tFilter, {max: 1})
-                            if(isNaN(propMessages.first().content.trim())){
-                                beforeMsg.delete().catch(err => { if(err) console.log(err) })
-                                message.channel.send(`> **Oops!**`, {
+                            await inteMsg.channel.awaitMessages(tFilter, {max: 1}).then(async coll =>{
+                                await inteMsg.delete()
+                                if(!regExURL.test(coll.first().content)) return message.channel.send(`> **Oops!**`, {
                                     embed:{
-                                        description: `${bot.db.messages.err}\n> \`Your team required level is not a number\``,
+                                        description: `${bot.db.messages.err}\n> \`Your provided team banner is not a valid URL with an image\``,
                                         color: bot.config.embed_color,
                                         timestamp: Date.now(),
                                         footer: { text: `${bot.user.username}`}
-                                    },
-                                }).then(msg => { msg.delete({timeout: 5000}) })
-                            }else{
-                                team.info.teamReqLvl = propMessages.first().content.trim()
-                                beforeMsg.delete().catch(err => { if(err) console.log(err) })
+                                    }
+                                }).then(m => { m.delete({timeout:5000}) })
+
+                                team.info.teamBanner = coll.first().content.trim()
                                 message.channel.send(`> **Done!**`, {
                                     embed:{
-                                        description: `Your team required level to join has been successfully changed to **${propMessages.first().content.trim()}**`,
+                                        description: `Your team banner has been updated to **${team.info.teamBanner.slice(0, 20)}..**\n*Remember to save this modification when you're done*`,
                                         color: bot.config.embed_color,
                                         timestamp: Date.now(),
                                         footer: { text: `${bot.user.username}`}
-                                    },
-                                }).then(msg => { msg.delete({timeout: 5000}) })
-                            }
-                            propMessages.first().delete().catch(err => { if(err) console.log(err) })
+                                    }
+                                }).then(m => { m.delete({timeout:5000}) })
+                            })
                             break
-                        case "team.invite":
-                            if(!svProfile){
-                                message.channel.send(`> **Oops!**`, {
-                                    embed:{
-                                        description: `${bot.db.messages.err}\n> \`You cannot edit your team invite without the role Supporter (Squarez official server)\``,
-                                        color: bot.config.embed_color,
-                                        timestamp: Date.now(),
-                                        footer: { text: `${bot.user.username}`}
-                                    },
-                                }).then(msg => { msg.delete({timeout: 5000}) })
-                            }else{
-                                beforeMsg = await message.channel.send(`> **Change team Invite**`, {
-                                    embed:{
-                                        description: `Enter a new team invite, the team invite must be **4 - 12** characters in length`,
-                                        fields:[
-                                            {name: `Current Invite`, value: `${team.team.teamCode ? team.team.teamCode : `No invite code`}`}
-                                        ],
-                                        color: bot.config.embed_color,
-                                        timestamp: Date.now(),
-                                        footer: { text: `${bot.user.username}`}
-                                    },
-                                })
-
-                                propMessages = await msg.channel.createMessageCollector(tFilter, {max: 1})
-                                if(propMessages.first().content.trim().length < 4 || propMessages.first().content.trim().length > 12){
-                                    beforeMsg.delete().catch(err => { if(err) console.log(err) })
-                                    message.channel.send(`> **Oops!**`, {
-                                        embed:{
-                                            description: `${bot.db.messages.err}\n> \`Your team invite is not in the range 4 - 12 characters\``,
-                                            color: bot.config.embed_color,
-                                            timestamp: Date.now(),
-                                            footer: { text: `${bot.user.username}`}
-                                        },
-                                    }).then(msg => { msg.delete({timeout: 5000}) })
-                                }else{
-                                    team.team.teamCode = "team/" + propMessages.first().content.trim()
-                                    beforeMsg.delete().catch(err => { if(err) console.log(err) })
-                                    message.channel.send(`> **Done!**`, {
-                                        embed:{
-                                            description: `Your team invite has been successfully changed to **${team.team.teamCode}**`,
-                                            color: bot.config.embed_color,
-                                            timestamp: Date.now(),
-                                            footer: { text: `${bot.user.username}`}
-                                        },
-                                    }).then(msg => { msg.delete({timeout: 5000}) })
-                                }
-                                propMessages.first().delete().catch(err => { if(err) console.log(err) })
-                            }
-                            
-                            break
-                        default:
-                            message.channel.send(`> **Oops!**`, {
+                        case "team.requiredLevel":
+                            inteMsg = await message.channel.send(`> **Customize Team**\n> Team: **${team.info.teamName}**`, {
                                 embed:{
-                                    description: `${bot.db.messages.err}\n> \`The property "${property}" is not defined\``,
+                                    description: `**Edit team required level**\n__Provide the required level for your team__\n\n**Limitation**\n> The required level has no limit, unless the required level is too high for users`,
                                     color: bot.config.embed_color,
                                     timestamp: Date.now(),
                                     footer: { text: `${bot.user.username}`}
-                                },
-                            }).then(msg => { msg.delete({timeout: 5000}) })
+                                }
+                            })
+                            await inteMsg.channel.awaitMessages(tFilter, {max: 1}).then(async coll =>{
+                                await inteMsg.delete()
+                                if(isNaN(coll.first().content)) return message.channel.send(`> **Oops!**`, {
+                                    embed:{
+                                        description: `${bot.db.messages.err}\n> \`Your provided team required level is not a valid number\``,
+                                        color: bot.config.embed_color,
+                                        timestamp: Date.now(),
+                                        footer: { text: `${bot.user.username}`}
+                                    }
+                                }).then(m => { m.delete({timeout:5000}) })
+
+                                team.info.teamReqLvl = parseInt(coll.first().content.trim())
+                                message.channel.send(`> **Done!**`, {
+                                    embed:{
+                                        description: `Your team required level has been updated to **${team.info.teamReqLvl}**\n*Remember to save this modification when you're done*`,
+                                        color: bot.config.embed_color,
+                                        timestamp: Date.now(),
+                                        footer: { text: `${bot.user.username}`}
+                                    }
+                                }).then(m => { m.delete({timeout:5000}) })
+                            })
+                            break
+                        case "team.invite":
+                            inteMsg = await message.channel.send(`> **Customize Team**\n> Team: **${team.info.teamName}**`, {
+                                embed:{
+                                    description: `**Edit team invite**\n__Provide the new invite for your team__\n\n**Limitation**\n> The team invite must be **4 - 12** characters in length`,
+                                    color: bot.config.embed_color,
+                                    timestamp: Date.now(),
+                                    footer: { text: `${bot.user.username}`}
+                                }
+                            })
+                            await inteMsg.channel.awaitMessages(tFilter, {max: 1}).then(async coll =>{
+                                await inteMsg.delete()
+                                if(coll.first().content.length < 4 || coll.first().content.length > 12) return message.channel.send(`> **Oops!**`, {
+                                    embed:{
+                                        description: `${bot.db.messages.err}\n> \`Your provided team description is not in the range 4 - 12 characters\``,
+                                        color: bot.config.embed_color,
+                                        timestamp: Date.now(),
+                                        footer: { text: `${bot.user.username}`}
+                                    }
+                                }).then(m => { m.delete({timeout:5000}) })
+
+                                team.team.teamCode = "team/" + coll.first().content.trim()
+                                message.channel.send(`> **Done!**`, {
+                                    embed:{
+                                        description: `Your team invite has been updated to **${team.team.teamCode}**\n*Remember to save this modification when you're done*`,
+                                        color: bot.config.embed_color,
+                                        timestamp: Date.now(),
+                                        footer: { text: `${bot.user.username}`}
+                                    }
+                                }).then(m => { m.delete({timeout:5000}) })
+                            })
                             break
                     }
-                }
+                })
             }
             if(button.id === "save-team-button"){
+                await msgCollector.stop()
                 msg.edit(`> **Customize Team**\n> Team: **${team.info.teamName}**\n> Saving..`, {
                     embed:{
                         description: `All of your modification is being saved into your **Team Data**`,
@@ -407,6 +336,7 @@ module.exports={
                 }, 5000)
             }
             if(button.id === "reset-team-button"){
+                await msgCollector.stop()
                 msg.edit(`> **Customize Team**\n> Team: **${team.info.teamName}**\n> Resetting..`, {
                     embed:{
                         description: `All of your modification is being restored from your default **Team Data**`,
