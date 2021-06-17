@@ -21,6 +21,7 @@ const Discord = require("discord.js")
 const { MessageButton, MessageActionRow } = require("discord-buttons")
 const { Collection, Client, MessageEmbed } = require("discord.js")
 const cdUtil = require("./util/cooldowns.js")
+const bdUtil = require("./util/sortBadges.js")
 const ms = require("ms")
 const fs = require("fs")
 
@@ -106,6 +107,13 @@ bot.on("message", async(message) =>{
   if(!message.member) return
   if(message.member.user.bot) return
 
+  //Sorting
+  bot.db.data.forEach(user =>{
+    bdUtil.sort(user.userID, bot)
+  })
+  fs.writeFile("./base/db.json", JSON.stringify(bot.db), (err) => { if(err) console.log(err) })
+
+  //New user instance
   if(!bot.db.data.find(user => user.userID === message.author.id)){
     bot.db.data.push({
       userID: message.author.id,
@@ -134,7 +142,7 @@ bot.on("message", async(message) =>{
 
   if(Date.now() >= bot.db.event.deadline && bot.db.event.running){
     let leaderboard = bot.db.data.sort((a, b) => b.leveling.lvl === a.leveling.lvl ? b.leveling.xp - a.leveling.xp : b.leveling.lvl - a.leveling.xp)
-    leaderboard = leaderboard.filter(user => !user.profile.badge.badges.includes("<:bad_10:853499394854354954>") && user.profile.gamesPlayed >= 1)
+    leaderboard = leaderboard.filter(user => !user.profile.badge.badges.includes("<:bad_10:853499394854354954>") && bot.users.cache.get(user.userID))
 
     let date = new Date()
     let days = new Date(date.getFullYear(), date.getMonth() + 2, 0).getDate()
@@ -148,7 +156,7 @@ bot.on("message", async(message) =>{
       embed:{
         description: `The event of **${new Intl.DateTimeFormat("en-us").format(Date.now())}** has reached to their end!\nWe have **${leaderboard.length} winners** to announce`,
         fields:[
-          {name: `Winners`, value: `${leaderboard.map(user => { return `**${bot.users.cache.get(user.userID) ? bot.users.cache.get(user.userID) : `Unknown user`}** : ${user.profile.badge.badges.includes("<:bad_10:853499394854354954>") ? `They have claimed their badge! Hope they like it` : `They haven't claimed their badge yet.. Let's wait until they claim it`}` })}`}
+          {name: `Winners`, value: `${leaderboard.map(user => { return `**${bot.users.cache.get(user.userID) ? bot.users.cache.get(user.userID).tag : `Unknown user`}** : ${user.profile.badge.badges.includes("<:bad_10:853499394854354954>") ? `They have claimed their badge! Hope they like it` : `They haven't claimed their badge yet.. Let's wait until they claim it`}` })}`}
         ],
         image: { url: `https://cdn.discordapp.com/attachments/836246355693142056/849671017089597530/congrats.png` },
         color: bot.config.embed_color,
@@ -181,7 +189,8 @@ bot.on("message", async(message) =>{
             footer: { text: bot.user.username }
           },
           component: claimAction
-        })
+        }).catch(err => { if(err) console.log(err) })
+        if(!msg) return
 
         let filter = (button) => button.clicker.user.id === member.id
         const collector = await msg.createButtonCollector(filter)
@@ -240,7 +249,7 @@ bot.on("message", async(message) =>{
                 embed:{
                   description: `The event of **${new Intl.DateTimeFormat("en-us").format(Date.now())}** has reached to their end!\nWe have **${leaderboard.length} winners** to announce`,
                   fields:[
-                    {name: `Winners`, value: `${leaderboard.map(user => { return `**${bot.users.cache.get(user.userID) ? bot.users.cache.get(user.userID) : `Unknown user`}** : ${user.profile.badge.badges.includes("<:bad_10:853499394854354954>") ? `They have claimed their badge! Hope they like it` : `They haven't claimed their badge yet.. Let's wait until they claim it`}` })}`}
+                    {name: `Winners`, value: `${leaderboard.map(user => { return `**${bot.users.cache.get(user.userID) ? bot.users.cache.get(user.userID).tag : `Unknown user`}** : ${user.profile.badge.badges.includes("<:bad_10:853499394854354954>") ? `They have claimed their badge! Hope they like it` : `They haven't claimed their badge yet.. Let's wait until they claim it`}` })}`}
                   ],
                   image: { url: `https://cdn.discordapp.com/attachments/836246355693142056/849671017089597530/congrats.png` },
                   color: bot.config.embed_color,

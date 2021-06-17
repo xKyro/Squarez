@@ -39,6 +39,7 @@ module.exports={
     if(type === "c") data = data.filter(user => !user.profile.badge.badges.includes("<:bad_10:853499394854354954>"))
 
     data = data.sort((a, b) => b.leveling.lvl === a.leveling.lvl ? b.leveling.xp - a.leveling.xp : b.leveling.lvl - a.leveling.lvl)
+    data = data.filter(user => bot.users.cache.get(user.userID))
 
     message.channel.send(`> **Global leaderboard**\n> Top **10** best players of squarez`, {
         embed:{

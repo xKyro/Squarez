@@ -28,7 +28,7 @@ module.exports={
 
         const saveButton = new MessageButton()
         .setStyle("blurple")
-        .setLabel("Save & Exit")
+        .setLabel("Save")
         .setID("save-team-button")
 
         const resetButton = new MessageButton()
@@ -50,11 +50,20 @@ module.exports={
         .addComponents([modifyButton, saveButton, resetButton, closeButton])
 
         const team = bot.db.teams.find(team => team.team.teamOwner === message.author.id)
-        const svProfile = bot.guilds.cache.get("838086291458621460").members.cache.get(message.author.id) ? bot.guilds.cache.get("838086291458621460").members.cache.get(message.author.id).roles.cache.get("852972522823221298") : null
 
         if(!team) return message.channel.send(`> **Oops!**`, {
             embed:{
                 description: `${bot.db.messages.err}\n> \`You don't own a team yet\``,
+                color: bot.config.embed_color,
+                timestamp: Date.now(),
+                footer: { text: `${bot.user.username}`}
+            }
+        })
+
+        const data = bot.db.data.find(user => user.userID === message.author.id)
+        if(!data) return message.channel.send(`> **Oops!**`, {
+            embed:{
+                description: `${bot.db.messages.err}\n> \`I couldn't get your profile information. Try again later\``,
                 color: bot.config.embed_color,
                 timestamp: Date.now(),
                 footer: { text: `${bot.user.username}`}
@@ -67,7 +76,7 @@ module.exports={
             embed:{
                 description: `Hello there **${message.author.username}**\nLooking for customize your team? Well you're in the right place!\n\nRead all the information below to get started!`,
                 fields:[
-                    {name: `Help`, value: `Below this message are 3 buttons\n\nThe button with name **Modify** will help you to start modifying properties as you like, some properties are only available for users that **supported** the bot (Those properties will be indicated as [P])\n\nThe button with name **Save & Exit** will save your modifications of your team and close this message to finally apply the changes\n\nThe button with name **Reset** will reset all of the modified properties`}
+                    {name: `Help`, value: `Below this message are 3 buttons\n\nThe button with name **Modify** will help you to start modifying properties as you like, some properties are only available for users that **supported** the bot (Those properties will be indicated as [P])\n\nThe button with name **Save** will save your modifications of your team, it will take a few seconds and then finally apply the changes\n\nThe button with name **Reset** will reset all of the modified properties`}
                 ],
                 color: bot.config.embed_color,
                 timestamp: Date.now(),
@@ -91,12 +100,12 @@ module.exports={
 
             if(button.id === "close-button"){
                 custom.modifying = false
-                await msgCollector.stop()
+                if(msgCollector) await msgCollector.stop()
                 msg.delete()
             }
             if(button.id === "go-back-button"){
                 custom.modifying = false
-                await msgCollector.stop()
+                if(msgCollector) await msgCollector.stop()
                 msg.edit(`> **Customize Team**\n> Team: **${team.info.teamName}**`, base)
             }
             if(button.id === "modify-team-button"){
@@ -224,6 +233,14 @@ module.exports={
                             })
                             break
                         case "team.banner":
+                            if(!data.profile.badge.badges.includes("<:bad_03:853496480404471839>")) return message.channel.send(`> **Customize Team**\n> Team: **${team.info.teamName}**`, {
+                                embed:{
+                                    description: `${bot.db.messages.err}\n\`You don't have any supporter perks to use this property\``,
+                                    color: bot.config.embed_color,
+                                    timestamp: Date.now(),
+                                    footer: { text: `${bot.user.username}`}
+                                }
+                            }).then(m => { m.delete({timeout:5000}) })
                             inteMsg = await message.channel.send(`> **Customize Team**\n> Team: **${team.info.teamName}**`, {
                                 embed:{
                                     description: `**Edit team banner**\n__Provide the new banner for your team__\n\n**Limitation**\n> The team icon must be a **valid** URL that contains an image`,
@@ -286,6 +303,14 @@ module.exports={
                             })
                             break
                         case "team.invite":
+                            if(!data.profile.badge.badges.includes("<:bad_03:853496480404471839>")) return message.channel.send(`> **Customize Team**\n> Team: **${team.info.teamName}**`, {
+                                embed:{
+                                    description: `${bot.db.messages.err}\n\`You don't have any supporter perks to use this property\``,
+                                    color: bot.config.embed_color,
+                                    timestamp: Date.now(),
+                                    footer: { text: `${bot.user.username}`}
+                                }
+                            }).then(m => { m.delete({timeout:5000}) })
                             inteMsg = await message.channel.send(`> **Customize Team**\n> Team: **${team.info.teamName}**`, {
                                 embed:{
                                     description: `**Edit team invite**\n__Provide the new invite for your team__\n\n**Limitation**\n> The team invite must be **4 - 12** characters in length`,
@@ -320,7 +345,7 @@ module.exports={
                 })
             }
             if(button.id === "save-team-button"){
-                await msgCollector.stop()
+                if(msgCollector) await msgCollector.stop()
                 msg.edit(`> **Customize Team**\n> Team: **${team.info.teamName}**\n> Saving..`, {
                     embed:{
                         description: `All of your modification is being saved into your **Team Data**`,
@@ -336,7 +361,7 @@ module.exports={
                 }, 5000)
             }
             if(button.id === "reset-team-button"){
-                await msgCollector.stop()
+                if(msgCollector) await msgCollector.stop()
                 msg.edit(`> **Customize Team**\n> Team: **${team.info.teamName}**\n> Resetting..`, {
                     embed:{
                         description: `All of your modification is being restored from your default **Team Data**`,
